@@ -13,14 +13,12 @@ import (
 */
 func main() {
 	root := Tree{value: 4, red: false}
-
-	root.left = &Tree{value: 2, red: false, parent: &root}
-	root.left.left = &Tree{value: 1, red: false, parent: root.left}
-	root.left.right = &Tree{value: 3, red: false, parent: root.left}
-
-	root.right = &Tree{value: 6, red: false, parent: &root}
-	root.right.left = &Tree{value: 5, red: false, parent: root.right}
-	root.right.right = &Tree{value: 7, red: false, parent: root.right}
+	root.Insert(2)
+	root.Insert(1)
+	root.Insert(3)
+	root.Insert(6)
+	root.Insert(5)
+	root.Insert(7)
 }
 
 // In order traversal of the tree for printing
@@ -41,6 +39,25 @@ type Tree struct {
 	left   *Tree
 	right  *Tree
 	parent *Tree
+}
+
+// Insert will add a new node to the tree with the given value
+func (tree *Tree) Insert(value int) {
+	if value < tree.value {
+		if tree.left == nil {
+			tree.left = &Tree{value: value, red: false, parent: tree}
+			return
+		}
+		tree.left.Insert(value)
+
+	} else {
+		if tree.right == nil {
+			tree.right = &Tree{value: value, red: false, parent: tree}
+			return
+		}
+		tree.right.Insert(value)
+
+	}
 }
 
 func (tree *Tree) rightRotate() {
@@ -91,15 +108,15 @@ func (tree *Tree) Contains(value int) bool {
 		return false
 	}
 
-	if tree.value == value {
+	if value == tree.value {
 		return true
 	}
 
-	if tree.value > value {
+	if value < tree.value {
 		return tree.left.Contains(value)
 	}
 
-	if tree.value < value {
+	if value > tree.value {
 		return tree.right.Contains(value)
 	}
 
