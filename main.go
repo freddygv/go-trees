@@ -12,7 +12,7 @@ import (
 
 */
 func main() {
-	root := Tree{value: 4, red: false}
+	root := NewTree(4)
 	root.Insert(2)
 	root.Insert(1)
 	root.Insert(3)
@@ -41,18 +41,23 @@ type Tree struct {
 	parent *Tree
 }
 
+// NewTree returns a red-black tree storing the single value given
+func NewTree(value int) *Tree {
+	return &Tree{value: value}
+}
+
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
 	if value < tree.value {
 		if tree.left == nil {
-			tree.left = &Tree{value: value, red: false, parent: tree}
+			tree.left = &Tree{value: value, parent: tree}
 			return
 		}
 		tree.left.Insert(value)
 
 	} else {
 		if tree.right == nil {
-			tree.right = &Tree{value: value, red: false, parent: tree}
+			tree.right = &Tree{value: value, parent: tree}
 			return
 		}
 		tree.right.Insert(value)
