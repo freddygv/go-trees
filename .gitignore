@@ -1,3 +1,5 @@
+*.pdf
+
 # Binaries for programs and plugins
 bin/
 *.exe
