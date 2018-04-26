@@ -19,6 +19,8 @@ func main() {
 	root.Insert(6)
 	root.Insert(5)
 	root.Insert(7)
+
+	traverse(root)
 }
 
 // In order traversal of the tree for printing
@@ -48,21 +50,88 @@ func NewTree(value int) *Tree {
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
+	inserted := tree.naiveInsert(value)
+
+	current := inserted
+	// Loop until reaching root or a black node
+	for current.parent != nil && current.red == true {
+		parent := current.parent
+		grandparent := parent.parent
+
+		if parent == grandparent.left {
+			uncle := grandparent.right
+			if uncle.red {
+				fmt.Println("Case 1: Re-color and move up")
+				uncle.red = false
+				parent.red = false
+				current = grandparent
+
+			} else if current == parent.right {
+				fmt.Println("Case 2: Zigzag from GP to current, left then right")
+				current = parent
+				current.leftRotate()
+
+				if current == parent.left {
+					fmt.Println("Case 3: Straight from GP, left then left")
+					parent := current.parent
+					grandparent := parent.parent
+					grandparent.rightRotate()
+
+					// Parent becomes black root and GP becomes red sibling
+					parent.red = false
+					grandparent.red = true
+					current = parent
+				}
+			}
+		} else { // Reverse left and right
+			uncle := grandparent.left
+			if uncle.red {
+				fmt.Println("Case 1: Re-color and move up")
+				uncle.red = false
+				parent.red = false
+				current = grandparent
+
+			} else if current == parent.left {
+				fmt.Println("Case 2: Zigzag from GP to current, right then left")
+				current = parent
+				current.rightRotate()
+
+				if current == parent.right {
+					fmt.Println("Case 3: Straight from GP, right then right")
+					parent := current.parent
+					grandparent := parent.parent
+					grandparent.leftRotate()
+
+					// Parent becomes black root and GP becomes red sibling
+					parent.red = false
+					grandparent.red = true
+					current = parent
+				}
+			}
+		}
+	}
+	// Re-color root if needed
+	current.red = false
+}
+
+// Naive BST insertion for a given value
+func (tree *Tree) naiveInsert(value int) *Tree {
 	if value < tree.value {
 		if tree.left == nil {
-			tree.left = &Tree{value: value, parent: tree}
-			return
+			tree.left = &Tree{value: value, red: true, parent: tree}
+			return tree.left
 		}
 		tree.left.Insert(value)
 
 	} else {
 		if tree.right == nil {
-			tree.right = &Tree{value: value, parent: tree}
-			return
+			tree.right = &Tree{value: value, red: true, parent: tree}
+			return tree.right
 		}
 		tree.right.Insert(value)
 
 	}
+	return nil
 }
 
 func (tree *Tree) rightRotate() {
