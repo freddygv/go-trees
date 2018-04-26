@@ -43,31 +43,31 @@ type Tree struct {
 }
 
 // Contains searches a Red-Black Tree for a value recursively
-func (n *Tree) Contains(value int) bool {
-	if n == nil {
+func (t *Tree) Contains(value int) bool {
+	if t == nil {
 		return false
 	}
 
-	if n.value == value {
+	if t.value == value {
 		return true
 	}
 
-	if n.value > value {
-		return n.left.Contains(value)
+	if t.value > value {
+		return t.left.Contains(value)
 	}
 
-	if n.value < value {
-		return n.right.Contains(value)
+	if t.value < value {
+		return t.right.Contains(value)
 	}
 
 	return false
 }
 
-func (n *Tree) String() string {
+func (t *Tree) String() string {
 	color := "B"
-	if n.red == true {
+	if t.red == true {
 		color = "R"
 	}
 
-	return fmt.Sprintf("%d,%s", n.value, color)
+	return fmt.Sprintf("%d,%s", t.value, color)
 }
