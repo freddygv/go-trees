@@ -4,14 +4,6 @@ import (
 	"fmt"
 )
 
-// RBNode is a node in a Red-Black Tree
-type RBNode struct {
-	value int
-	red   bool
-	left  *RBNode
-	right *RBNode
-}
-
 /*
 
       4
@@ -20,52 +12,62 @@ type RBNode struct {
 
 */
 func main() {
-	root := RBNode{value: 4, red: false}
+	root := Tree{value: 4, red: false}
 
-	root.left = &RBNode{value: 2, red: false}
-	root.left.left = &RBNode{value: 1, red: false}
-	root.left.right = &RBNode{value: 3, red: false}
+	root.left = &Tree{value: 2, red: false}
+	root.left.left = &Tree{value: 1, red: false}
+	root.left.right = &Tree{value: 3, red: false}
 
-	root.right = &RBNode{value: 6, red: false}
-	root.right.left = &RBNode{value: 5, red: false}
-	root.right.right = &RBNode{value: 7, red: false}
+	root.right = &Tree{value: 6, red: false}
+	root.right.left = &Tree{value: 5, red: false}
+	root.right.right = &Tree{value: 7, red: false}
 }
 
-func contains(value int, root *RBNode) bool {
-	if root == nil {
-		return false
-	}
-
-	if root.value == value {
-		return true
-	}
-
-	if root.value > value {
-		return contains(value, root.left)
-	}
-
-	if root.value < value {
-		return contains(value, root.right)
-	}
-
-	return false
-}
-
-func traverse(root *RBNode) {
+// In order traversal of the tree for printing
+func traverse(root *Tree) {
 	if root == nil {
 		return
 	}
 
 	traverse(root.left)
-	print(root)
+	fmt.Println(root)
 	traverse(root.right)
 }
 
-func print(node *RBNode) {
+// Tree is a sub-tree in a Red-Black Tree
+type Tree struct {
+	value int
+	red   bool
+	left  *Tree
+	right *Tree
+}
+
+// Contains searches a Red-Black Tree for a value recursively
+func (n *Tree) Contains(value int) bool {
+	if n == nil {
+		return false
+	}
+
+	if n.value == value {
+		return true
+	}
+
+	if n.value > value {
+		return n.left.Contains(value)
+	}
+
+	if n.value < value {
+		return n.right.Contains(value)
+	}
+
+	return false
+}
+
+func (n *Tree) String() string {
 	color := "B"
-	if node.red == true {
+	if n.red == true {
 		color = "R"
 	}
 
-	fmt.Printf("%d,%s ", node.value, color)
+	return fmt.Sprintf("%d,%s", n.value, color)
 }
