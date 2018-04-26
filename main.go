@@ -121,14 +121,14 @@ func (tree *Tree) naiveInsert(value int) *Tree {
 			tree.left = &Tree{value: value, red: true, parent: tree}
 			return tree.left
 		}
-		tree.left.Insert(value)
+		tree.left.naiveInsert(value)
 
 	} else {
 		if tree.right == nil {
 			tree.right = &Tree{value: value, red: true, parent: tree}
 			return tree.right
 		}
-		tree.right.Insert(value)
+		tree.right.naiveInsert(value)
 
 	}
 	return nil
