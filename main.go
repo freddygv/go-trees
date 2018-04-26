@@ -14,8 +14,8 @@ type RBNode struct {
 
 /*
 
-	  4
-  2		 6
+      4
+  2	     6
 1   3  5   7
 
 */
@@ -29,18 +29,36 @@ func main() {
 	root.right = &RBNode{value: 6, red: false}
 	root.right.left = &RBNode{value: 5, red: false}
 	root.right.right = &RBNode{value: 7, red: false}
-
-	traverse(&root)
 }
 
-func traverse(node *RBNode) {
-	if node == nil {
+func contains(value int, root *RBNode) bool {
+	if root == nil {
+		return false
+	}
+
+	if root.value == value {
+		return true
+	}
+
+	if root.value > value {
+		return contains(value, root.left)
+	}
+
+	if root.value < value {
+		return contains(value, root.right)
+	}
+
+	return false
+}
+
+func traverse(root *RBNode) {
+	if root == nil {
 		return
 	}
 
-	traverse(node.left)
-	print(node)
-	traverse(node.right)
+	traverse(root.left)
+	print(root)
+	traverse(root.right)
 }
 
 func print(node *RBNode) {
