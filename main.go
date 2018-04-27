@@ -43,7 +43,7 @@ type Tree struct {
 	parent *Tree
 }
 
-// NewTree returns a red-black tree storing the single value given
+// NewTree returns a red-black tree storing the single value given as the black root.
 func NewTree(value int) *Tree {
 	return &Tree{value: value}
 }
@@ -111,27 +111,42 @@ func (tree *Tree) Insert(value int) {
 		}
 	}
 	// Re-color root if needed
-	current.red = false
+	if current.parent == nil {
+		current.red = false
+	}
 }
 
-// Naive BST insertion for a given value
+// Naive BST insertion for a given value (new nodes are always red)
 func (tree *Tree) naiveInsert(value int) *Tree {
 	if value < tree.value {
 		if tree.left == nil {
-			tree.left = &Tree{value: value, red: true, parent: tree}
+			tree.left = newNode(value, tree)
 			return tree.left
 		}
 		tree.left.naiveInsert(value)
 
 	} else {
 		if tree.right == nil {
-			tree.right = &Tree{value: value, red: true, parent: tree}
+			tree.right = newNode(value, tree)
 			return tree.right
 		}
 		tree.right.naiveInsert(value)
 
 	}
 	return nil
+}
+
+// newNode adds a new red node with two empty black leaves
+func newNode(value int, parent *Tree) *Tree {
+	node := Tree{value: value, red: true, parent: parent}
+
+	l := Tree{parent: &node}
+	node.left = &l
+
+	r := Tree{parent: &node}
+	node.right = &r
+
+	return &node
 }
 
 func (tree *Tree) rightRotate() {
