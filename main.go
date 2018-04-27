@@ -9,7 +9,8 @@ import (
          7,B
   3,B          18,R
 	     10,B       22,B
-      8,R   11,R       26,R
+	  8,R   11,R       26,R
+	           15,R
 
 */
 func main() {
@@ -29,9 +30,9 @@ func main() {
 	root.right.right.red = false
 	root.right.right.right = newNode(26, root.right.right)
 
-	root.naiveInsert(15)
+	root.Insert(15)
 
-	traverse(root)
+	traverse(root.parent)
 }
 
 // In order traversal of the tree for printing
@@ -65,9 +66,12 @@ func NewTree(value int) *Tree {
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
-	inserted := tree.naiveInsert(value)
+	current := tree.naiveInsert(value)
 
-	current := inserted
+	if current.parent.parent == nil {
+		return
+	}
+
 	// Loop until reaching root or a black node
 	for current.parent != nil && current.red == true {
 		parent := current.parent
@@ -76,18 +80,19 @@ func (tree *Tree) Insert(value int) {
 		if parent == grandparent.left {
 			uncle := grandparent.right
 			if uncle.red {
-				fmt.Println("Case 1: Re-color and move up")
+				// Case 1A: Re-color and move up
 				uncle.red = false
 				parent.red = false
+				grandparent.red = true
 				current = grandparent
 
 			} else if current == parent.right {
-				fmt.Println("Case 2: Zigzag from GP to current, left then right")
+				// Case 2A: Zigzag from GP to current, left then right
 				current = parent
 				current.leftRotate()
 
-				if current == parent.left {
-					fmt.Println("Case 3: Straight from GP, left then left")
+				if current == current.parent.left {
+					// Case 3A: Straight from GP, left then left
 					parent := current.parent
 					grandparent := parent.parent
 					grandparent.rightRotate()
@@ -101,18 +106,19 @@ func (tree *Tree) Insert(value int) {
 		} else { // Reverse left and right
 			uncle := grandparent.left
 			if uncle.red {
-				fmt.Println("Case 1: Re-color and move up")
+				// Case 1B: Re-color and move up
 				uncle.red = false
 				parent.red = false
+				grandparent.red = true
 				current = grandparent
 
 			} else if current == parent.left {
-				fmt.Println("Case 2: Zigzag from GP to current, right then left")
+				// Case 2B: Zigzag from GP to current, right then left
 				current = parent
 				current.rightRotate()
 
-				if current == parent.right {
-					fmt.Println("Case 3: Straight from GP, right then right")
+				if current == current.parent.right {
+					// Case 3B: Straight from GP, right then right
 					parent := current.parent
 					grandparent := parent.parent
 					grandparent.leftRotate()
@@ -126,7 +132,7 @@ func (tree *Tree) Insert(value int) {
 		}
 	}
 	// Re-color root if needed
-	if current.parent == nil {
+	if current.parent == nil && current.red == true {
 		current.red = false
 	}
 }
@@ -135,20 +141,21 @@ func (tree *Tree) Insert(value int) {
 func (tree *Tree) naiveInsert(value int) *Tree {
 	if value < tree.value {
 		if tree.left.isLeaf() {
-			tree.left = newNode(value, tree)
-			return tree.left
+			n := newNode(value, tree)
+			tree.left = n
+			return n
 		}
-		tree.left.naiveInsert(value)
+		return tree.left.naiveInsert(value)
 
 	} else {
 		if tree.right.isLeaf() {
-			tree.right = newNode(value, tree)
-			return tree.right
+			n := newNode(value, tree)
+			tree.right = n
+			return n
 		}
-		tree.right.naiveInsert(value)
+		return tree.right.naiveInsert(value)
 
 	}
-	return nil
 }
 
 // isLeaf checks if a node is a child-less black sentinel
@@ -176,7 +183,7 @@ func (tree *Tree) rightRotate() {
 	left := tree.left
 	parent := tree.parent
 
-	// Promote the left node over the current root
+	// Promote node to be its grandparent's child
 	if parent != nil && parent.value > tree.value {
 		parent.left = left
 
@@ -198,11 +205,13 @@ func (tree *Tree) leftRotate() {
 	right := tree.right
 	parent := tree.parent
 
-	// Promote the right node over the current root
-	if parent.value > tree.value {
+	// Promote node to be its grandparent's child
+	if parent != nil && parent.value > tree.value {
 		parent.left = right
-	} else {
+
+	} else if parent != nil && parent.value <= tree.value {
 		parent.right = right
+
 	}
 	right.parent = parent
 
