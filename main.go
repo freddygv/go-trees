@@ -14,23 +14,13 @@ import (
 
 */
 func main() {
-	root := NewTree(7)
-
-	root.left = newNode(3, root)
-	root.left.red = false
-
-	root.right = newNode(18, root)
-
-	root.right.left = newNode(10, root.right)
-	root.right.left.red = false
-	root.right.left.left = newNode(8, root.right.left)
-	root.right.left.right = newNode(11, root.right.left)
-
-	root.right.right = newNode(22, root.right)
-	root.right.right.red = false
-	root.right.right.right = newNode(26, root.right.right)
-
-	root.Insert(15)
+	root := NewTree(4)
+	root.Insert(2)
+	root.Insert(1)
+	root.Insert(3)
+	root.Insert(6)
+	root.Insert(5)
+	root.Insert(7)
 
 	traverse(root.parent)
 }
@@ -61,13 +51,12 @@ type Tree struct {
 
 // NewTree returns a red-black tree storing the single value given as the black root.
 func NewTree(value int) *Tree {
-	return &Tree{value: value}
+	return newNode(value, false, nil)
 }
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
 	current := tree.naiveInsert(value)
-
 	if current.parent.parent == nil {
 		return
 	}
@@ -87,21 +76,21 @@ func (tree *Tree) Insert(value int) {
 				current = grandparent
 
 			} else if current == parent.right {
-				// Case 2A: Zigzag from GP to current, left then right
+				// Case 2A: Zigzag from grandparent to current, left then right
 				current = parent
 				current.leftRotate()
 
-				if current == current.parent.left {
-					// Case 3A: Straight from GP, left then left
-					parent := current.parent
-					grandparent := parent.parent
-					grandparent.rightRotate()
+			}
+			if current.parent != nil && current == current.parent.left {
+				// Case 3A: Straight from grandparent, left then left
+				parent := current.parent
+				grandparent := parent.parent
+				grandparent.rightRotate()
 
-					// Parent becomes black root and GP becomes red sibling
-					parent.red = false
-					grandparent.red = true
-					current = parent
-				}
+				// Parent becomes black root and grandparent becomes red sibling
+				parent.red = false
+				grandparent.red = true
+				current = parent
 			}
 		} else { // Reverse left and right
 			uncle := grandparent.left
@@ -113,21 +102,21 @@ func (tree *Tree) Insert(value int) {
 				current = grandparent
 
 			} else if current == parent.left {
-				// Case 2B: Zigzag from GP to current, right then left
+				// Case 2B: Zigzag from grandparent to current, right then left
 				current = parent
 				current.rightRotate()
 
-				if current == current.parent.right {
-					// Case 3B: Straight from GP, right then right
-					parent := current.parent
-					grandparent := parent.parent
-					grandparent.leftRotate()
+			}
+			if current.parent != nil && current == current.parent.right {
+				// Case 3B: Straight from grandparent, right then right
+				parent := current.parent
+				grandparent := parent.parent
+				grandparent.leftRotate()
 
-					// Parent becomes black root and GP becomes red sibling
-					parent.red = false
-					grandparent.red = true
-					current = parent
-				}
+				// Parent becomes black root and grandparent becomes red sibling
+				parent.red = false
+				grandparent.red = true
+				current = parent
 			}
 		}
 	}
@@ -141,7 +130,7 @@ func (tree *Tree) Insert(value int) {
 func (tree *Tree) naiveInsert(value int) *Tree {
 	if value < tree.value {
 		if tree.left.isLeaf() {
-			n := newNode(value, tree)
+			n := newNode(value, true, tree)
 			tree.left = n
 			return n
 		}
@@ -149,7 +138,7 @@ func (tree *Tree) naiveInsert(value int) *Tree {
 
 	} else {
 		if tree.right.isLeaf() {
-			n := newNode(value, tree)
+			n := newNode(value, true, tree)
 			tree.right = n
 			return n
 		}
@@ -167,8 +156,8 @@ func (tree *Tree) isLeaf() bool {
 }
 
 // newNode adds a new red node with two empty black leaves
-func newNode(value int, parent *Tree) *Tree {
-	node := Tree{value: value, red: true, parent: parent}
+func newNode(value int, red bool, parent *Tree) *Tree {
+	node := Tree{value: value, red: red, parent: parent}
 
 	l := Tree{parent: &node}
 	node.left = &l
