@@ -6,19 +6,30 @@ import (
 
 /*
 
-      4
-  2      6
-1   3  5   7
+         7,B
+  3,B          18,R
+	     10,B       22,B
+      8,R   11,R       26,R
 
 */
 func main() {
-	root := NewTree(4)
-	root.Insert(2)
-	root.Insert(1)
-	root.Insert(3)
-	root.Insert(6)
-	root.Insert(5)
-	root.Insert(7)
+	root := NewTree(7)
+
+	root.left = newNode(3, root)
+	root.left.red = false
+
+	root.right = newNode(18, root)
+
+	root.right.left = newNode(10, root.right)
+	root.right.left.red = false
+	root.right.left.left = newNode(8, root.right.left)
+	root.right.left.right = newNode(11, root.right.left)
+
+	root.right.right = newNode(22, root.right)
+	root.right.right.red = false
+	root.right.right.right = newNode(26, root.right.right)
+
+	root.naiveInsert(15)
 
 	traverse(root)
 }
@@ -30,7 +41,11 @@ func traverse(root *Tree) {
 	}
 
 	traverse(root.left)
-	fmt.Printf("%v ", root)
+
+	if !root.isLeaf() {
+		fmt.Printf("%v ", root)
+	}
+
 	traverse(root.right)
 }
 
@@ -119,14 +134,14 @@ func (tree *Tree) Insert(value int) {
 // Naive BST insertion for a given value (new nodes are always red)
 func (tree *Tree) naiveInsert(value int) *Tree {
 	if value < tree.value {
-		if tree.left == nil {
+		if tree.left.isLeaf() {
 			tree.left = newNode(value, tree)
 			return tree.left
 		}
 		tree.left.naiveInsert(value)
 
 	} else {
-		if tree.right == nil {
+		if tree.right.isLeaf() {
 			tree.right = newNode(value, tree)
 			return tree.right
 		}
@@ -134,6 +149,14 @@ func (tree *Tree) naiveInsert(value int) *Tree {
 
 	}
 	return nil
+}
+
+// isLeaf checks if a node is a child-less black sentinel
+func (tree *Tree) isLeaf() bool {
+	if tree.left == nil && tree.right == nil && tree.red == false {
+		return true
+	}
+	return false
 }
 
 // newNode adds a new red node with two empty black leaves
@@ -212,6 +235,7 @@ func (tree *Tree) Contains(value int) bool {
 	return false
 }
 
+// String representation of a black node with value 7 is: 7,B
 func (tree *Tree) String() string {
 	color := "B"
 	if tree.red == true {
