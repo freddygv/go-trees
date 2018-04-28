@@ -6,27 +6,27 @@ import (
 
 // Tree contains a reference to the root of the Red-Black tree
 type Tree struct {
-	root *Node
+	Root *Node
 }
 
 // NewTree returns a red-black tree storing the single value given as the black root.
 func NewTree(value int) *Tree {
-	return &Tree{root: newNode(value, false, nil)}
+	return &Tree{Root: newNode(value, false, nil)}
 }
 
 // Contains searches a Red-Black Tree for a value recursively
 func (tree *Tree) Contains(value int) bool {
-	root := tree.root
+	root := tree.Root
 
 	for root != nil {
-		if value == root.value {
+		if value == root.Value {
 			return true
 		}
-		if value < root.value {
-			root = root.left
+		if value < root.Value {
+			root = root.Left
 		}
-		if value > root.value {
-			root = root.right
+		if value > root.Value {
+			root = root.Right
 		}
 	}
 
@@ -35,18 +35,18 @@ func (tree *Tree) Contains(value int) bool {
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
-	current := tree.root.naiveInsert(value)
-	if current.parent.parent == nil {
+	current := tree.Root.naiveInsert(value)
+	if current.Parent.Parent == nil {
 		return
 	}
 
 	// Loop until reaching root (nil parent pointer), black node, or black parent
-	for current.parent != nil && current.red && current.parent.red {
-		parent := current.parent
-		grandparent := parent.parent
+	for current.Parent != nil && current.red && current.Parent.red {
+		parent := current.Parent
+		grandparent := parent.Parent
 
-		if parent == grandparent.left {
-			uncle := grandparent.right
+		if parent == grandparent.Left {
+			uncle := grandparent.Right
 			if uncle.red {
 				// Case 1A: Re-color and move up
 				uncle.red = false
@@ -55,25 +55,25 @@ func (tree *Tree) Insert(value int) {
 				current = grandparent
 				continue
 
-			} else if current == parent.right {
-				// Case 2A: Zigzag from grandparent to current, left then right
+			} else if current == parent.Right {
+				// Case 2A: Zigzag from grandparent to current, Left then Right
 				current = parent
-				current.leftRotate()
+				current.LeftRotate()
 
 			}
-			if current.parent != nil && current == current.parent.left {
-				// Case 3A: Straight from grandparent, left then left
-				parent = current.parent
-				grandparent = parent.parent
-				grandparent.rightRotate()
+			if current.Parent != nil && current == current.Parent.Left {
+				// Case 3A: Straight from grandparent, Left then Left
+				parent = current.Parent
+				grandparent = parent.Parent
+				grandparent.RightRotate()
 
 				// Parent becomes black root and grandparent becomes red sibling
 				parent.red = false
 				grandparent.red = true
 				current = parent
 			}
-		} else { // Reverse left and right
-			uncle := grandparent.left
+		} else { // Reverse Left and Right
+			uncle := grandparent.Left
 			if uncle.red {
 				// Case 1B: Re-color and move up
 				uncle.red = false
@@ -82,17 +82,17 @@ func (tree *Tree) Insert(value int) {
 				current = grandparent
 				continue
 
-			} else if current == parent.left {
-				// Case 2B: Zigzag from grandparent to current, right then left
+			} else if current == parent.Left {
+				// Case 2B: Zigzag from grandparent to current, Right then Left
 				current = parent
-				current.rightRotate()
+				current.RightRotate()
 
 			}
-			if current.parent != nil && current == current.parent.right {
-				// Case 3B: Straight from grandparent, right then right
-				parent = current.parent
-				grandparent = parent.parent
-				grandparent.leftRotate()
+			if current.Parent != nil && current == current.Parent.Right {
+				// Case 3B: Straight from grandparent, Right then Right
+				parent = current.Parent
+				grandparent = parent.Parent
+				grandparent.LeftRotate()
 
 				// Parent becomes black root and grandparent becomes red sibling
 				parent.red = false
@@ -102,107 +102,107 @@ func (tree *Tree) Insert(value int) {
 		}
 	}
 	// Re-color root if needed
-	if current.parent == nil {
+	if current.Parent == nil {
 		current.red = false
-		tree.root = current
+		tree.Root = current
 	}
 }
 
 func (tree *Tree) ToSlice(arr *[]*Node) {
-	tree.root.flatten(arr)
+	tree.Root.flatten(arr)
 }
 
 // Node is a sub-tree in a Red-Black tree
 type Node struct {
-	value  int
+	Value  int
 	red    bool
-	left   *Node
-	right  *Node
-	parent *Node
+	Left   *Node
+	Right  *Node
+	Parent *Node
 }
 
 // newNode adds a new red node with two empty black leaves
 func newNode(value int, red bool, parent *Node) *Node {
-	node := Node{value: value, red: red, parent: parent}
+	node := Node{Value: value, red: red, Parent: parent}
 
-	l := Node{parent: &node}
-	node.left = &l
+	l := Node{Parent: &node}
+	node.Left = &l
 
-	r := Node{parent: &node}
-	node.right = &r
+	r := Node{Parent: &node}
+	node.Right = &r
 
 	return &node
 }
 
 // Naive BST insertion for a given value (new nodes are always red)
 func (root *Node) naiveInsert(value int) *Node {
-	if value < root.value {
-		if root.left.isLeaf() {
-			root.left = newNode(value, true, root)
-			return root.left
+	if value < root.Value {
+		if root.Left.isLeaf() {
+			root.Left = newNode(value, true, root)
+			return root.Left
 		}
-		return root.left.naiveInsert(value)
+		return root.Left.naiveInsert(value)
 
 	} else {
-		if root.right.isLeaf() {
-			root.right = newNode(value, true, root)
-			return root.right
+		if root.Right.isLeaf() {
+			root.Right = newNode(value, true, root)
+			return root.Right
 		}
-		return root.right.naiveInsert(value)
+		return root.Right.naiveInsert(value)
 
 	}
 }
 
 // isLeaf checks if a node is a child-less black sentinel
 func (node *Node) isLeaf() bool {
-	if node.left == nil && node.right == nil && node.red == false {
+	if node.Left == nil && node.Right == nil && node.red == false {
 		return true
 	}
 	return false
 }
 
-func (node *Node) rightRotate() {
-	left := node.left
-	parent := node.parent
+func (node *Node) RightRotate() {
+	Left := node.Left
+	parent := node.Parent
 
 	// Promote node to be its grandparent's child
-	if parent != nil && parent.value > node.value {
-		parent.left = left
+	if parent != nil && parent.Value > node.Value {
+		parent.Left = Left
 
-	} else if parent != nil && parent.value <= node.value {
-		parent.right = left
+	} else if parent != nil && parent.Value <= node.Value {
+		parent.Right = Left
 
 	}
-	left.parent = parent
+	Left.Parent = parent
 
-	// Hand over the right child of the left node
-	node.left = left.right
+	// Hand over the Right child of the Left node
+	node.Left = Left.Right
 
 	// Swap parent/child relationship
-	left.right = node
-	node.parent = left
+	Left.Right = node
+	node.Parent = Left
 }
 
-func (node *Node) leftRotate() {
-	right := node.right
-	parent := node.parent
+func (node *Node) LeftRotate() {
+	Right := node.Right
+	parent := node.Parent
 
 	// Promote node to be its grandparent's child
-	if parent != nil && parent.value > node.value {
-		parent.left = right
+	if parent != nil && parent.Value > node.Value {
+		parent.Left = Right
 
-	} else if parent != nil && parent.value <= node.value {
-		parent.right = right
+	} else if parent != nil && parent.Value <= node.Value {
+		parent.Right = Right
 
 	}
-	right.parent = parent
+	Right.Parent = parent
 
-	// Hand over the left child of the right node
-	node.right = right.left
+	// Hand over the Left child of the Right node
+	node.Right = Right.Left
 
 	// Swap parent/child relationship
-	right.left = node
-	node.parent = right
+	Right.Left = node
+	node.Parent = Right
 }
 
 // In order traversal to flatten tree into slice
@@ -211,13 +211,13 @@ func (root *Node) flatten(arr *[]*Node) {
 		return
 	}
 
-	root.left.flatten(arr)
+	root.Left.flatten(arr)
 
 	if !root.isLeaf() {
 		*arr = append(*arr, root)
 	}
 
-	root.right.flatten(arr)
+	root.Right.flatten(arr)
 }
 
 // String representation of a black node with value 7 is: 7,B
@@ -227,5 +227,5 @@ func (node *Node) String() string {
 		color = "R"
 	}
 
-	return fmt.Sprintf("%d,%s", node.value, color)
+	return fmt.Sprintf("%d,%s", node.Value, color)
 }

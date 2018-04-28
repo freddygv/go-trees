@@ -1,5 +1,5 @@
 *.pdf
-debug
+debug*
 
 # Binaries for programs and plugins
 bin/
