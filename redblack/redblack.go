@@ -108,7 +108,7 @@ func (tree *Tree) Insert(value int) {
 	}
 }
 
-func (tree *Tree) ToSlice(arr *[]*Node) {
+func (tree *Tree) toSlice(arr *[]*Node) {
 	tree.Root.flatten(arr)
 }
 

@@ -17,17 +17,17 @@ func TestInsert(t *testing.T) {
 		tree.Insert(7)
 
 		expect := []*Node{
-			&Node{Value: 1, red: false},
-			&Node{Value: 2, red: false},
-			&Node{Value: 3, red: false},
-			&Node{Value: 4, red: true},
-			&Node{Value: 5, red: true},
-			&Node{Value: 6, red: false},
-			&Node{Value: 7, red: true},
+			{Value: 1, red: false},
+			{Value: 2, red: false},
+			{Value: 3, red: false},
+			{Value: 4, red: true},
+			{Value: 5, red: true},
+			{Value: 6, red: false},
+			{Value: 7, red: true},
 		}
 
 		result := make([]*Node, 0)
-		tree.ToSlice(&result)
+		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -48,17 +48,17 @@ func TestInsert(t *testing.T) {
 		tree.Insert(1)
 
 		expect := []*Node{
-			&Node{Value: 1, red: true},
-			&Node{Value: 2, red: false},
-			&Node{Value: 3, red: true},
-			&Node{Value: 4, red: true},
-			&Node{Value: 5, red: false},
-			&Node{Value: 6, red: false},
-			&Node{Value: 7, red: false},
+			{Value: 1, red: true},
+			{Value: 2, red: false},
+			{Value: 3, red: true},
+			{Value: 4, red: true},
+			{Value: 5, red: false},
+			{Value: 6, red: false},
+			{Value: 7, red: false},
 		}
 
 		result := make([]*Node, 0)
-		tree.ToSlice(&result)
+		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -87,19 +87,19 @@ func TestInsert(t *testing.T) {
 		tree.Insert(10)
 
 		expect := []*Node{
-			&Node{Value: 3, red: true},
-			&Node{Value: 7, red: false},
-			&Node{Value: 8, red: true},
-			&Node{Value: 10, red: true},
-			&Node{Value: 11, red: false},
-			&Node{Value: 15, red: false},
-			&Node{Value: 18, red: false},
-			&Node{Value: 22, red: true},
-			&Node{Value: 26, red: false},
+			{Value: 3, red: true},
+			{Value: 7, red: false},
+			{Value: 8, red: true},
+			{Value: 10, red: true},
+			{Value: 11, red: false},
+			{Value: 15, red: false},
+			{Value: 18, red: false},
+			{Value: 22, red: true},
+			{Value: 26, red: false},
 		}
 
 		result := make([]*Node, 0)
-		tree.ToSlice(&result)
+		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -128,19 +128,19 @@ func TestInsert(t *testing.T) {
 		tree.Insert(15)
 
 		expect := []*Node{
-			&Node{Value: 3, red: false},
-			&Node{Value: 7, red: true},
-			&Node{Value: 8, red: false},
-			&Node{Value: 10, red: false},
-			&Node{Value: 11, red: false},
-			&Node{Value: 15, red: true},
-			&Node{Value: 18, red: true},
-			&Node{Value: 22, red: false},
-			&Node{Value: 26, red: true},
+			{Value: 3, red: false},
+			{Value: 7, red: true},
+			{Value: 8, red: false},
+			{Value: 10, red: false},
+			{Value: 11, red: false},
+			{Value: 15, red: true},
+			{Value: 18, red: true},
+			{Value: 22, red: false},
+			{Value: 26, red: true},
 		}
 
 		result := make([]*Node, 0)
-		tree.ToSlice(&result)
+		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -165,7 +165,7 @@ func TestContains(t *testing.T) {
 		expect := []int{1, 2, 3, 4, 5, 6, 7}
 
 		result := make([]*Node, 0)
-		tree.ToSlice(&result)
+		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if !tree.Contains(expect[i]) {
