@@ -1,4 +1,4 @@
-package main
+package redblack
 
 import "testing"
 
@@ -23,7 +23,7 @@ func TestInsert(t *testing.T) {
 		}
 
 		result := make([]*Node, 0)
-		flatten(tree.root, &result)
+		tree.ToSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].value != result[i].value || expect[i].red != result[i].red {
@@ -32,7 +32,7 @@ func TestInsert(t *testing.T) {
 		}
 	})
 
-	t.Run("3 case insert", func(t *testing.T) {
+	t.Run("3 case insert B", func(t *testing.T) {
 		tree := NewTree(7)
 
 		root := tree.root
@@ -65,7 +65,7 @@ func TestInsert(t *testing.T) {
 		}
 
 		result := make([]*Node, 0)
-		flatten(tree.root, &result)
+		tree.ToSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].value != result[i].value || expect[i].red != result[i].red {
@@ -88,7 +88,7 @@ func TestContains(t *testing.T) {
 		expect := []int{1, 2, 3, 4, 5, 6, 7}
 
 		result := make([]*Node, 0)
-		flatten(tree.root, &result)
+		tree.ToSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if !tree.Contains(expect[i]) {
