@@ -58,14 +58,14 @@ func (tree *Tree) Insert(value int) {
 			} else if current == parent.Right {
 				// Case 2A: Zigzag from grandparent to current, Left then Right
 				current = parent
-				current.LeftRotate()
+				current.leftRotate()
 
 			}
 			if current.Parent != nil && current == current.Parent.Left {
 				// Case 3A: Straight from grandparent, Left then Left
 				parent = current.Parent
 				grandparent = parent.Parent
-				grandparent.RightRotate()
+				grandparent.rightRotate()
 
 				// Parent becomes black root and grandparent becomes red sibling
 				parent.red = false
@@ -85,14 +85,14 @@ func (tree *Tree) Insert(value int) {
 			} else if current == parent.Left {
 				// Case 2B: Zigzag from grandparent to current, Right then Left
 				current = parent
-				current.RightRotate()
+				current.rightRotate()
 
 			}
 			if current.Parent != nil && current == current.Parent.Right {
 				// Case 3B: Straight from grandparent, Right then Right
 				parent = current.Parent
 				grandparent = parent.Parent
-				grandparent.LeftRotate()
+				grandparent.leftRotate()
 
 				// Parent becomes black root and grandparent becomes red sibling
 				parent.red = false
@@ -135,20 +135,20 @@ func newNode(value int, red bool, parent *Node) *Node {
 }
 
 // Naive BST insertion for a given value (new nodes are always red)
-func (root *Node) naiveInsert(value int) *Node {
-	if value < root.Value {
-		if root.Left.isLeaf() {
-			root.Left = newNode(value, true, root)
-			return root.Left
+func (node *Node) naiveInsert(value int) *Node {
+	if value < node.Value {
+		if node.Left.isLeaf() {
+			node.Left = newNode(value, true, node)
+			return node.Left
 		}
-		return root.Left.naiveInsert(value)
+		return node.Left.naiveInsert(value)
 
 	} else {
-		if root.Right.isLeaf() {
-			root.Right = newNode(value, true, root)
-			return root.Right
+		if node.Right.isLeaf() {
+			node.Right = newNode(value, true, node)
+			return node.Right
 		}
-		return root.Right.naiveInsert(value)
+		return node.Right.naiveInsert(value)
 
 	}
 }
@@ -161,7 +161,7 @@ func (node *Node) isLeaf() bool {
 	return false
 }
 
-func (node *Node) RightRotate() {
+func (node *Node) rightRotate() {
 	Left := node.Left
 	parent := node.Parent
 
@@ -183,7 +183,7 @@ func (node *Node) RightRotate() {
 	node.Parent = Left
 }
 
-func (node *Node) LeftRotate() {
+func (node *Node) leftRotate() {
 	Right := node.Right
 	parent := node.Parent
 
@@ -206,18 +206,18 @@ func (node *Node) LeftRotate() {
 }
 
 // In order traversal to flatten tree into slice
-func (root *Node) flatten(arr *[]*Node) {
-	if root == nil {
+func (node *Node) flatten(arr *[]*Node) {
+	if node == nil {
 		return
 	}
 
-	root.Left.flatten(arr)
+	node.Left.flatten(arr)
 
-	if !root.isLeaf() {
-		*arr = append(*arr, root)
+	if !node.isLeaf() {
+		*arr = append(*arr, node)
 	}
 
-	root.Right.flatten(arr)
+	node.Right.flatten(arr)
 }
 
 // String representation of a black node with value 7 is: 7,B
