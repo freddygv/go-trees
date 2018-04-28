@@ -53,6 +53,7 @@ func (tree *Tree) Insert(value int) {
 				parent.red = false
 				grandparent.red = true
 				current = grandparent
+				continue
 
 			} else if current == parent.right {
 				// Case 2A: Zigzag from grandparent to current, left then right

@@ -1,6 +1,8 @@
 package redblack
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestInsert(t *testing.T) {
 	t.Run("1 to 7", func(t *testing.T) {
@@ -20,6 +22,35 @@ func TestInsert(t *testing.T) {
 			&Node{value: 5, red: true},
 			&Node{value: 6, red: false},
 			&Node{value: 7, red: true},
+		}
+
+		result := make([]*Node, 0)
+		tree.ToSlice(&result)
+
+		for i := 0; i < len(expect); i++ {
+			if expect[i].value != result[i].value || expect[i].red != result[i].red {
+				t.Fatalf("expected: %v, got: %v", expect[i], result[i])
+			}
+		}
+	})
+
+	t.Run("7 to 1", func(t *testing.T) {
+		tree := NewTree(7)
+		tree.Insert(6)
+		tree.Insert(5)
+		tree.Insert(4)
+		tree.Insert(3)
+		tree.Insert(2)
+		tree.Insert(1)
+
+		expect := []*Node{
+			&Node{value: 1, red: true},
+			&Node{value: 2, red: false},
+			&Node{value: 3, red: true},
+			&Node{value: 4, red: true},
+			&Node{value: 5, red: false},
+			&Node{value: 6, red: false},
+			&Node{value: 7, red: false},
 		}
 
 		result := make([]*Node, 0)
