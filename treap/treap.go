@@ -1,6 +1,7 @@
 package treap
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"time"
@@ -44,7 +45,20 @@ func (tree *Tree) Get(value int) (*Node, bool) {
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
-	_ = tree.naiveInsert(value)
+	current := tree.naiveInsert(value)
+
+	// Bubble up while the current node's priority is lower than its parent's
+	for current.Parent != nil && compare(current.Priority, current.Parent.Priority) < 0 {
+		if current == current.Parent.Left {
+			current.Parent.rightRotate()
+		} else {
+			current.Parent.leftRotate()
+		}
+
+		if current.Parent == nil {
+			tree.Root = current
+		}
+	}
 }
 
 // Naive BST insertion for a given value
@@ -72,6 +86,12 @@ func (tree *Tree) naiveInsert(value int) *Node {
 		}
 	}
 	return inserted
+}
+
+func (tree *Tree) toSlice() []*Node {
+	arr := make([]*Node, 0)
+	tree.Root.flatten(&arr)
+	return arr
 }
 
 // Node is a sub-tree
@@ -126,6 +146,23 @@ func (node *Node) leftRotate() {
 	// Swap parent/child relationship
 	Right.Left = node
 	node.Parent = Right
+}
+
+// In order traversal to flatten tree into slice
+func (node *Node) flatten(arr *[]*Node) {
+	if node == nil {
+		return
+	}
+
+	node.Left.flatten(arr)
+
+	*arr = append(*arr, node)
+
+	node.Right.flatten(arr)
+}
+
+func (node *Node) String() string {
+	return fmt.Sprintf("(%d, %d)", node.Value, node.Priority)
 }
 
 func compare(a, b int) int {

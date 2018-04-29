@@ -107,8 +107,10 @@ func (tree *Tree) Insert(value int) {
 	}
 }
 
-func (tree *Tree) toSlice(arr *[]*Node) {
-	tree.Root.flatten(arr)
+func (tree *Tree) toSlice() []*Node {
+	arr := make([]*Node, 0)
+	tree.Root.flatten(&arr)
+	return arr
 }
 
 // Node is a sub-tree in a Red-Black tree

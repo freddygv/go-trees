@@ -26,8 +26,7 @@ func TestInsert(t *testing.T) {
 			{Value: 7, red: true},
 		}
 
-		result := make([]*Node, 0)
-		tree.toSlice(&result)
+		result := tree.toSlice()
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -57,8 +56,7 @@ func TestInsert(t *testing.T) {
 			{Value: 7, red: false},
 		}
 
-		result := make([]*Node, 0)
-		tree.toSlice(&result)
+		result := tree.toSlice()
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -98,8 +96,7 @@ func TestInsert(t *testing.T) {
 			{Value: 26, red: false},
 		}
 
-		result := make([]*Node, 0)
-		tree.toSlice(&result)
+		result := tree.toSlice()
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -139,8 +136,7 @@ func TestInsert(t *testing.T) {
 			{Value: 26, red: true},
 		}
 
-		result := make([]*Node, 0)
-		tree.toSlice(&result)
+		result := tree.toSlice()
 
 		for i := 0; i < len(expect); i++ {
 			if expect[i].Value != result[i].Value || expect[i].red != result[i].red {
@@ -150,7 +146,7 @@ func TestInsert(t *testing.T) {
 	})
 }
 
-func TestContains(t *testing.T) {
+func TestGet(t *testing.T) {
 	t.Run("1 to 7", func(t *testing.T) {
 		t.Parallel()
 
@@ -163,9 +159,6 @@ func TestContains(t *testing.T) {
 		tree.Insert(7)
 
 		expect := []int{1, 2, 3, 4, 5, 6, 7}
-
-		result := make([]*Node, 0)
-		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
 			if _, ok := tree.Get(expect[i]); !ok {
