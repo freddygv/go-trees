@@ -8,7 +8,8 @@ func TestInsert(t *testing.T) {
 	t.Run("1 to 7", func(t *testing.T) {
 		t.Parallel()
 
-		tree := NewTree(1)
+		tree := NewTree()
+		tree.Insert(1)
 		tree.Insert(2)
 		tree.Insert(3)
 		tree.Insert(4)
@@ -38,7 +39,8 @@ func TestInsert(t *testing.T) {
 	t.Run("7 to 1", func(t *testing.T) {
 		t.Parallel()
 
-		tree := NewTree(7)
+		tree := NewTree()
+		tree.Insert(7)
 		tree.Insert(6)
 		tree.Insert(5)
 		tree.Insert(4)
@@ -68,7 +70,8 @@ func TestInsert(t *testing.T) {
 	t.Run("3 case insert A", func(t *testing.T) {
 		t.Parallel()
 
-		tree := NewTree(22)
+		tree := NewTree()
+		tree.Root = newNode(22, false, nil)
 
 		root := tree.Root
 		root.Right = newNode(26, false, root)
@@ -108,7 +111,8 @@ func TestInsert(t *testing.T) {
 	t.Run("3 case insert B", func(t *testing.T) {
 		t.Parallel()
 
-		tree := NewTree(7)
+		tree := NewTree()
+		tree.Root = newNode(7, false, nil)
 
 		root := tree.Root
 		root.Left = newNode(3, false, root)
@@ -150,7 +154,8 @@ func TestGet(t *testing.T) {
 	t.Run("1 to 7", func(t *testing.T) {
 		t.Parallel()
 
-		tree := NewTree(1)
+		tree := NewTree()
+		tree.Insert(1)
 		tree.Insert(2)
 		tree.Insert(3)
 		tree.Insert(4)

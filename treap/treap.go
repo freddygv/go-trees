@@ -17,11 +17,9 @@ type Tree struct {
 const maxPriority = math.MaxInt32
 
 // NewTree returns a treap Tree storing the single value given as the root.
-func NewTree(value int) *Tree {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+func NewTree() *Tree {
 	return &Tree{
-		Root: &Node{Value: value, Priority: r.Intn(maxPriority)},
-		rnd:  r,
+		rnd: rand.New(rand.NewSource(time.Now().UnixNano())),
 	}
 }
 
@@ -54,18 +52,22 @@ func (tree *Tree) Insert(value int) {
 		} else {
 			current.Parent.leftRotate()
 		}
-
-		if current.Parent == nil {
-			tree.Root = current
-		}
+	}
+	if current.Parent == nil {
+		tree.Root = current
 	}
 }
 
 // Naive BST insertion for a given value
 func (tree *Tree) naiveInsert(value int) *Node {
-	root := tree.Root
-
 	var inserted *Node
+
+	root := tree.Root
+	if root == nil {
+		inserted = &Node{Value: value, Priority: tree.rnd.Intn(maxPriority)}
+		tree.Root = inserted
+	}
+
 	for inserted == nil {
 		if compare(value, root.Value) < 0 {
 			if root.Left == nil {

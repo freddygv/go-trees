@@ -9,9 +9,9 @@ type Tree struct {
 	Root *Node
 }
 
-// NewTree returns a red-black tree storing the single value given as the black root.
-func NewTree(value int) *Tree {
-	return &Tree{Root: newNode(value, false, nil)}
+// NewTree returns an empty red-black tree reference.
+func NewTree() *Tree {
+	return &Tree{}
 }
 
 // Get searches a Red-Black Tree for a value, returns node ptr and boolean indicating if found
@@ -35,7 +35,7 @@ func (tree *Tree) Get(value int) (*Node, bool) {
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
 	current := tree.naiveInsert(value)
-	if current.Parent.Parent == nil {
+	if current.Parent == nil || current.Parent.Parent == nil {
 		return
 	}
 
@@ -107,6 +107,39 @@ func (tree *Tree) Insert(value int) {
 	}
 }
 
+// Naive BST insertion for a given value (new nodes are always red)
+func (tree *Tree) naiveInsert(value int) *Node {
+	var inserted *Node
+
+	root := tree.Root
+	if root == nil {
+		inserted = newNode(value, true, nil)
+		tree.Root = inserted
+	}
+
+	for inserted == nil {
+		if compare(value, root.Value) < 0 {
+			if root.Left.isLeaf() {
+				root.Left = newNode(value, true, root)
+				inserted = root.Left
+			} else {
+				root = root.Left
+			}
+
+		} else {
+			// Duplicate values placed on the right
+			if root.Right.isLeaf() {
+				root.Right = newNode(value, true, root)
+				inserted = root.Right
+			} else {
+				root = root.Right
+			}
+
+		}
+	}
+	return inserted
+}
+
 func (tree *Tree) toSlice() []*Node {
 	arr := make([]*Node, 0)
 	tree.Root.flatten(&arr)
@@ -133,34 +166,6 @@ func newNode(value int, red bool, parent *Node) *Node {
 	node.Right = &r
 
 	return &node
-}
-
-// Naive BST insertion for a given value (new nodes are always red)
-func (tree *Tree) naiveInsert(value int) *Node {
-	root := tree.Root
-
-	var inserted *Node
-	for inserted == nil {
-		if compare(value, root.Value) < 0 {
-			if root.Left.isLeaf() {
-				root.Left = newNode(value, true, root)
-				inserted = root.Left
-			} else {
-				root = root.Left
-			}
-
-		} else {
-			// Duplicate values placed on the right
-			if root.Right.isLeaf() {
-				root.Right = newNode(value, true, root)
-				inserted = root.Right
-			} else {
-				root = root.Right
-			}
-
-		}
-	}
-	return inserted
 }
 
 // isLeaf checks if a node is a child-less black sentinel
