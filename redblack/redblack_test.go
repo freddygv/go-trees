@@ -168,8 +168,8 @@ func TestContains(t *testing.T) {
 		tree.toSlice(&result)
 
 		for i := 0; i < len(expect); i++ {
-			if !tree.Contains(expect[i]) {
-				t.Fatalf("failed to find: %d", expect[i])
+			if _, ok := tree.Get(expect[i]); !ok {
+				t.Fatalf("failed to get: %d", expect[i])
 			}
 		}
 	})

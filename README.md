@@ -2,7 +2,7 @@
 
 Tree data structures in Go.
 
-Currently only working on supporting `Insert` and `Contains` methods for `int` type.
+Currently only working on supporting `Insert` and `Get` methods for `int` type.
 
 ## Contents
 ### Deterministic:

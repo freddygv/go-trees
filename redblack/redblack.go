@@ -14,13 +14,13 @@ func NewTree(value int) *Tree {
 	return &Tree{Root: newNode(value, false, nil)}
 }
 
-// Contains searches a Red-Black Tree for a value recursively
-func (tree *Tree) Contains(value int) bool {
+// Get searches a Red-Black Tree for a value recursively
+func (tree *Tree) Get(value int) (*Node, bool) {
 	root := tree.Root
 
 	for root != nil {
 		if value == root.Value {
-			return true
+			return root, true
 		}
 		if value < root.Value {
 			root = root.Left
@@ -30,7 +30,7 @@ func (tree *Tree) Contains(value int) bool {
 		}
 	}
 
-	return false
+	return nil, false
 }
 
 // Insert will add a new node to the tree with the given value
