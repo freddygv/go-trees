@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Tree contains a reference to the root of the Red-Black tree
+// Tree contains a reference to the root of the tree
 type Tree struct {
 	Root *Node
 	rnd  *rand.Rand
@@ -15,7 +15,7 @@ type Tree struct {
 // Randomized priorities are in the range of [0 - 2^31)
 const maxPriority = math.MaxInt32
 
-// NewTree returns a red-black tree storing the single value given as the black root.
+// NewTree returns a treap Tree storing the single value given as the root.
 func NewTree(value int) *Tree {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	return &Tree{
@@ -62,6 +62,7 @@ func (tree *Tree) naiveInsert(value int) *Node {
 			}
 
 		} else {
+			// Duplicate values placed on the right
 			if root.Right == nil {
 				root.Right = &Node{Value: value, Priority: tree.rnd.Intn(maxPriority), Parent: root}
 				inserted = root.Right
@@ -73,7 +74,7 @@ func (tree *Tree) naiveInsert(value int) *Node {
 	return inserted
 }
 
-// Node is a sub-tree in a Red-Black tree
+// Node is a sub-tree
 type Node struct {
 	Value    int
 	Priority int

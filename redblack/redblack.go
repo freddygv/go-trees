@@ -148,6 +148,7 @@ func (tree *Tree) naiveInsert(value int) *Node {
 			}
 
 		} else {
+			// Duplicate values placed on the right
 			if root.Right.isLeaf() {
 				root.Right = newNode(value, true, root)
 				inserted = root.Right
