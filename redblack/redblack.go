@@ -14,7 +14,7 @@ func NewTree(value int) *Tree {
 	return &Tree{Root: newNode(value, false, nil)}
 }
 
-// Get searches a Red-Black Tree for a value recursively
+// Get searches a Red-Black Tree for a value, returns node ptr and boolean indicating if found
 func (tree *Tree) Get(value int) (*Node, bool) {
 	root := tree.Root
 
