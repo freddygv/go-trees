@@ -34,7 +34,7 @@ func (tree *Tree) Get(value int) (*Node, bool) {
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
-	current := tree.Root.naiveInsert(value)
+	current := tree.naiveInsert(value)
 	if current.Parent.Parent == nil {
 		return
 	}
@@ -134,22 +134,30 @@ func newNode(value int, red bool, parent *Node) *Node {
 }
 
 // Naive BST insertion for a given value (new nodes are always red)
-func (node *Node) naiveInsert(value int) *Node {
-	if compare(value, node.Value) < 0 {
-		if node.Left.isLeaf() {
-			node.Left = newNode(value, true, node)
-			return node.Left
-		}
-		return node.Left.naiveInsert(value)
+func (tree *Tree) naiveInsert(value int) *Node {
+	root := tree.Root
 
-	} else {
-		if node.Right.isLeaf() {
-			node.Right = newNode(value, true, node)
-			return node.Right
-		}
-		return node.Right.naiveInsert(value)
+	var inserted *Node
+	for inserted == nil {
+		if compare(value, root.Value) < 0 {
+			if root.Left.isLeaf() {
+				root.Left = newNode(value, true, root)
+				inserted = root.Left
+			} else {
+				root = root.Left
+			}
 
+		} else {
+			if root.Right.isLeaf() {
+				root.Right = newNode(value, true, root)
+				inserted = root.Right
+			} else {
+				root = root.Right
+			}
+
+		}
 	}
+	return inserted
 }
 
 // isLeaf checks if a node is a child-less black sentinel

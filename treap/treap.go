@@ -3,11 +3,13 @@ package treap
 import (
 	"math"
 	"math/rand"
+	"time"
 )
 
 // Tree contains a reference to the root of the Red-Black tree
 type Tree struct {
 	Root *Node
+	rnd  *rand.Rand
 }
 
 // Randomized priorities are in the range of [0 - 2^31)
@@ -15,8 +17,11 @@ const maxPriority = math.MaxInt32
 
 // NewTree returns a red-black tree storing the single value given as the black root.
 func NewTree(value int) *Tree {
-	root := &Node{Value: value, Priority: rand.Intn(maxPriority)}
-	return &Tree{Root: root}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	return &Tree{
+		Root: &Node{Value: value, Priority: r.Intn(maxPriority)},
+		rnd:  r,
+	}
 }
 
 // Get searches a Treap for a value, returns node ptr and boolean indicating if found
@@ -37,6 +42,37 @@ func (tree *Tree) Get(value int) (*Node, bool) {
 	return nil, false
 }
 
+// Insert will add a new node to the tree with the given value
+func (tree *Tree) Insert(value int) {
+	_ = tree.naiveInsert(value)
+}
+
+// Naive BST insertion for a given value
+func (tree *Tree) naiveInsert(value int) *Node {
+	root := tree.Root
+
+	var inserted *Node
+	for inserted == nil {
+		if compare(value, root.Value) < 0 {
+			if root.Left == nil {
+				root.Left = &Node{Value: value, Priority: tree.rnd.Intn(maxPriority), Parent: root}
+				inserted = root.Left
+			} else {
+				root = root.Left
+			}
+
+		} else {
+			if root.Right == nil {
+				root.Right = &Node{Value: value, Priority: tree.rnd.Intn(maxPriority), Parent: root}
+				inserted = root.Right
+			} else {
+				root = root.Right
+			}
+		}
+	}
+	return inserted
+}
+
 // Node is a sub-tree in a Red-Black tree
 type Node struct {
 	Value    int
@@ -46,30 +82,12 @@ type Node struct {
 	Parent   *Node
 }
 
-// Naive BST insertion for a given value
-func (node *Node) naiveInsert(value int) *Node {
-	if compare(value, node.Value) < 0 {
-		if node.Left == nil {
-			node.Left = &Node{Value: value, Priority: rand.Intn(maxPriority), Parent: node}
-			return node.Left
-		}
-		return node.Left.naiveInsert(value)
-
-	} else {
-		if node.Right == nil {
-			node.Right = &Node{Value: value, Priority: rand.Intn(maxPriority), Parent: node}
-			return node.Right
-		}
-		return node.Right.naiveInsert(value)
-
-	}
-}
-
 func (node *Node) rightRotate() {
 	Left := node.Left
 	parent := node.Parent
 
 	// Promote node to be its grandparent's child
+	// If the current node is the parent's left child, make node.Left the parent's left child
 	if parent != nil && compare(node.Value, parent.Value) < 0 {
 		parent.Left = Left
 
