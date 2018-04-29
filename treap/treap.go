@@ -24,13 +24,12 @@ func (tree *Tree) Get(value int) (*Node, bool) {
 	root := tree.Root
 
 	for root != nil {
-		if value == root.Value {
+		if compare(value, root.Value) == 0 {
 			return root, true
 		}
-		if value < root.Value {
+		if compare(value, root.Value) < 0 {
 			root = root.Left
-		}
-		if value > root.Value {
+		} else {
 			root = root.Right
 		}
 	}
@@ -49,7 +48,7 @@ type Node struct {
 
 // Naive BST insertion for a given value
 func (node *Node) naiveInsert(value int) *Node {
-	if value < node.Value {
+	if compare(value, node.Value) < 0 {
 		if node.Left == nil {
 			node.Left = &Node{Value: value, Priority: rand.Intn(maxPriority), Parent: node}
 			return node.Left
@@ -71,10 +70,10 @@ func (node *Node) rightRotate() {
 	parent := node.Parent
 
 	// Promote node to be its grandparent's child
-	if parent != nil && parent.Value > node.Value {
+	if parent != nil && compare(node.Value, parent.Value) < 0 {
 		parent.Left = Left
 
-	} else if parent != nil && parent.Value <= node.Value {
+	} else if parent != nil && compare(node.Value, parent.Value) >= 0 {
 		parent.Right = Left
 
 	}
@@ -93,10 +92,10 @@ func (node *Node) leftRotate() {
 	parent := node.Parent
 
 	// Promote node to be its grandparent's child
-	if parent != nil && parent.Value > node.Value {
+	if parent != nil && compare(node.Value, parent.Value) < 0 {
 		parent.Left = Right
 
-	} else if parent != nil && parent.Value <= node.Value {
+	} else if parent != nil && compare(node.Value, parent.Value) >= 0 {
 		parent.Right = Right
 
 	}
@@ -108,4 +107,8 @@ func (node *Node) leftRotate() {
 	// Swap parent/child relationship
 	Right.Left = node
 	node.Parent = Right
+}
+
+func compare(a, b int) int {
+	return a - b
 }
