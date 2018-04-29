@@ -10,19 +10,22 @@ type Tree struct {
 	Root *Node
 }
 
+// Randomized priorities are in the range of [0 - 2^31)
+const maxPriority = math.MaxInt32
+
 // NewTree returns a red-black tree storing the single value given as the black root.
 func NewTree(value int) *Tree {
-	root := &Node{Value: value, Priority: rand.Intn(math.MaxInt32)}
+	root := &Node{Value: value, Priority: rand.Intn(maxPriority)}
 	return &Tree{Root: root}
 }
 
-// Contains searches a Red-Black Tree for a value recursively
-func (tree *Tree) Contains(value int) bool {
+// Get searches a Treap for a value, returns node ptr and boolean indicating if found
+func (tree *Tree) Get(value int) (*Node, bool) {
 	root := tree.Root
 
 	for root != nil {
 		if value == root.Value {
-			return true
+			return root, true
 		}
 		if value < root.Value {
 			root = root.Left
@@ -32,7 +35,7 @@ func (tree *Tree) Contains(value int) bool {
 		}
 	}
 
-	return false
+	return nil, false
 }
 
 // Node is a sub-tree in a Red-Black tree
@@ -48,14 +51,14 @@ type Node struct {
 func (node *Node) naiveInsert(value int) *Node {
 	if value < node.Value {
 		if node.Left == nil {
-			node.Left = &Node{Value: value, Priority: rand.Intn(math.MaxInt32), Parent: node}
+			node.Left = &Node{Value: value, Priority: rand.Intn(maxPriority), Parent: node}
 			return node.Left
 		}
 		return node.Left.naiveInsert(value)
 
 	} else {
 		if node.Right == nil {
-			node.Right = &Node{Value: value, Priority: rand.Intn(math.MaxInt32), Parent: node}
+			node.Right = &Node{Value: value, Priority: rand.Intn(maxPriority), Parent: node}
 			return node.Right
 		}
 		return node.Right.naiveInsert(value)
