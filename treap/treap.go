@@ -122,6 +122,9 @@ func (node *Node) rightRotate() {
 
 	// Hand over the Right child of the Left node
 	node.Left = Left.Right
+	if Left.Right != nil {
+		Left.Right.Parent = node
+	}
 
 	// Swap parent/child relationship
 	Left.Right = node
@@ -144,6 +147,9 @@ func (node *Node) leftRotate() {
 
 	// Hand over the Left child of the Right node
 	node.Right = Right.Left
+	if Right.Left != nil {
+		Right.Left.Parent = node
+	}
 
 	// Swap parent/child relationship
 	Right.Left = node
