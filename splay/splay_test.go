@@ -4,18 +4,18 @@ import (
 	"testing"
 )
 
-func TestGet(t *testing.T) {
-	tree := NewTree()
-	tree.Insert(1)
-	tree.Insert(2)
-	tree.Insert(3)
-	tree.Insert(4)
-	tree.Insert(5)
-	tree.Insert(6)
-	tree.Insert(7)
-
-	t.Run("in order traversal", func(t *testing.T) {
+func TestInsert(t *testing.T) {
+	t.Run("1 to 7 in order traversal", func(t *testing.T) {
 		t.Parallel()
+
+		tree := NewTree()
+		tree.Insert(1)
+		tree.Insert(2)
+		tree.Insert(3)
+		tree.Insert(4)
+		tree.Insert(5)
+		tree.Insert(6)
+		tree.Insert(7)
 
 		result := tree.toSlice()
 
@@ -26,8 +26,40 @@ func TestGet(t *testing.T) {
 		}
 	})
 
+	t.Run("7 to 1 in order traversal", func(t *testing.T) {
+		t.Parallel()
+
+		tree := NewTree()
+		tree.Insert(7)
+		tree.Insert(6)
+		tree.Insert(5)
+		tree.Insert(4)
+		tree.Insert(3)
+		tree.Insert(2)
+		tree.Insert(1)
+
+		result := tree.toSlice()
+
+		for i := 1; i < 8; i++ {
+			if result[i-1].Value != i {
+				t.Fatalf("failed to find: %v", i)
+			}
+		}
+	})
+}
+
+func TestGet(t *testing.T) {
 	t.Run("1 to 7 contained", func(t *testing.T) {
 		t.Parallel()
+
+		tree := NewTree()
+		tree.Insert(1)
+		tree.Insert(2)
+		tree.Insert(3)
+		tree.Insert(4)
+		tree.Insert(5)
+		tree.Insert(6)
+		tree.Insert(7)
 
 		for i := 1; i < 8; i++ {
 			if _, ok := tree.Get(i); !ok {
@@ -38,6 +70,15 @@ func TestGet(t *testing.T) {
 
 	t.Run("1 to 7 and two gets", func(t *testing.T) {
 		t.Parallel()
+
+		tree := NewTree()
+		tree.Insert(1)
+		tree.Insert(2)
+		tree.Insert(3)
+		tree.Insert(4)
+		tree.Insert(5)
+		tree.Insert(6)
+		tree.Insert(7)
 
 		root, _ := tree.Get(1)
 
