@@ -14,7 +14,7 @@ func NewTree() *Tree {
 	return &Tree{}
 }
 
-// Get searches a Treap for a value, returns node ptr and boolean indicating if found
+// Get searches the Tree for a value, returns node ptr and boolean indicating if found
 func (tree *Tree) Get(value int) (*Node, bool) {
 	current := tree.Root
 	parent := current.Parent
@@ -141,54 +141,54 @@ type Node struct {
 }
 
 func (node *Node) rightRotate() {
-	Left := node.Left
+	child := node.Left
 	parent := node.Parent
 
 	// Promote node to be its grandparent's child
 	// If the current node is the parent's left child, make node.Left the parent's left child
 	if parent != nil && compare(node.Value, parent.Value) < 0 {
-		parent.Left = Left
+		parent.Left = child
 
 	} else if parent != nil && compare(node.Value, parent.Value) >= 0 {
-		parent.Right = Left
+		parent.Right = child
 
 	}
-	Left.Parent = parent
+	child.Parent = parent
 
 	// Hand over the Right child of the Left node
-	node.Left = Left.Right
-	if Left.Right != nil {
-		Left.Right.Parent = node
+	node.Left = child.Right
+	if child.Right != nil {
+		child.Right.Parent = node
 	}
 
 	// Swap parent/child relationship
-	Left.Right = node
-	node.Parent = Left
+	child.Right = node
+	node.Parent = child
 }
 
 func (node *Node) leftRotate() {
-	Right := node.Right
+	child := node.Right
 	parent := node.Parent
 
 	// Promote node to be its grandparent's child
 	if parent != nil && compare(node.Value, parent.Value) < 0 {
-		parent.Left = Right
+		parent.Left = child
 
 	} else if parent != nil && compare(node.Value, parent.Value) >= 0 {
-		parent.Right = Right
+		parent.Right = child
 
 	}
-	Right.Parent = parent
+	child.Parent = parent
 
 	// Hand over the Left child of the Right node
-	node.Right = Right.Left
-	if Right.Left != nil {
-		Right.Left.Parent = node
+	node.Right = child.Left
+	if child.Left != nil {
+		child.Left.Parent = node
 	}
 
 	// Swap parent/child relationship
-	Right.Left = node
-	node.Parent = Right
+	child.Left = node
+	node.Parent = child
 }
 
 // In order traversal to flatten tree into slice
