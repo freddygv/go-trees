@@ -16,35 +16,33 @@ func NewTree() *Tree {
 
 // Get searches a Treap for a value, returns node ptr and boolean indicating if found
 func (tree *Tree) Get(value int) (*Node, bool) {
-	root := tree.Root
-	// parent := root.Parent
+	current := tree.Root
+	parent := current.Parent
 
-	for root != nil {
-		if compare(value, root.Value) == 0 {
-			// TODO: splay
-			return root, true
+	for current != nil {
+		if compare(value, current.Value) == 0 {
+			// Splay the inserted node to make it the root
+			tree.splay(current)
+			return current, true
 		}
 
-		// parent = root
-		if compare(value, root.Value) < 0 {
-			root = root.Left
+		parent = current
+		if compare(value, current.Value) < 0 {
+			current = current.Left
 		} else {
-			root = root.Right
+			current = current.Right
 		}
 	}
-	// TODO: splay parent
+
+	// Splay the parent of where the node would have been
+	tree.splay(parent)
 	return nil, false
 }
 
 // Insert will add a new node to the tree with the given value
 func (tree *Tree) Insert(value int) {
 	current := tree.naiveInsert(value)
-
-	// TODO: splay
-
-	if current.Parent == nil {
-		tree.Root = current
-	}
+	tree.splay(current)
 }
 
 // Naive BST insertion for a given value
@@ -79,6 +77,55 @@ func (tree *Tree) naiveInsert(value int) *Node {
 	return inserted
 }
 
+func (tree *Tree) splay(node *Node) {
+	if node == tree.Root {
+		return
+	}
+
+	for node.Parent != nil {
+		root := tree.Root
+		parent := node.Parent
+
+		// Zig (left child of root || right child of root)
+		if parent == root {
+			if node == root.Left {
+				root.rightRotate()
+				break
+			}
+			root.leftRotate()
+			break
+		}
+
+		grandparent := parent.Parent
+		if parent == grandparent.Left {
+			if node == parent.Right {
+				// Zig-zag (right child of left child)
+				parent.leftRotate()
+				grandparent.rightRotate()
+
+			} else {
+				// Zig-zig (left child of left child)
+				grandparent.rightRotate()
+				parent.rightRotate()
+
+			}
+		} else {
+			if node == parent.Left {
+				// Zig-zag (left child of right child)
+				parent.rightRotate()
+				grandparent.leftRotate()
+
+			} else {
+				// Zig-zig (right child of right child)
+				grandparent.leftRotate()
+				parent.leftRotate()
+
+			}
+		}
+	}
+	tree.Root = node
+}
+
 func (tree *Tree) toSlice() []*Node {
 	arr := make([]*Node, 0)
 	tree.Root.flatten(&arr)
@@ -91,10 +138,6 @@ type Node struct {
 	Left   *Node
 	Right  *Node
 	Parent *Node
-}
-
-func (node *Node) splay() {
-
 }
 
 func (node *Node) rightRotate() {
@@ -114,6 +157,9 @@ func (node *Node) rightRotate() {
 
 	// Hand over the Right child of the Left node
 	node.Left = Left.Right
+	if Left.Right != nil {
+		Left.Right.Parent = node
+	}
 
 	// Swap parent/child relationship
 	Left.Right = node
@@ -136,6 +182,9 @@ func (node *Node) leftRotate() {
 
 	// Hand over the Left child of the Right node
 	node.Right = Right.Left
+	if Right.Left != nil {
+		Right.Left.Parent = node
+	}
 
 	// Swap parent/child relationship
 	Right.Left = node
