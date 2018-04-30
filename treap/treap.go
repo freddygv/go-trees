@@ -16,7 +16,7 @@ type Tree struct {
 // Randomized priorities are in the range of [0 - 2^31)
 const maxPriority = math.MaxInt32
 
-// NewTree returns a treap Tree storing the single value given as the root.
+// NewTree returns an empty treap Tree
 func NewTree() *Tree {
 	return &Tree{
 		rnd: rand.New(rand.NewSource(time.Now().UnixNano())),
@@ -164,7 +164,7 @@ func (node *Node) flatten(arr *[]*Node) {
 }
 
 func (node *Node) String() string {
-	return fmt.Sprintf("(%d, %d)", node.Value, node.Priority)
+	return fmt.Sprintf("(%v, %v)", node.Value, node.Priority)
 }
 
 func compare(a, b int) int {

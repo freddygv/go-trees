@@ -246,5 +246,5 @@ func (node *Node) String() string {
 		color = "R"
 	}
 
-	return fmt.Sprintf("%d,%s", node.Value, color)
+	return fmt.Sprintf("%v,%s", node.Value, color)
 }
