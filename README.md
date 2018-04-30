@@ -7,7 +7,7 @@ Currently only working on supporting `Insert` and `Get` methods for `int` type.
 ## Contents
 ### Deterministic:
 * [Red Black Tree](https://github.com/freddygv/go-trees/blob/master/redblack/)
-* Splay Tree [WIP]
+* [Splay Tree](https://github.com/freddygv/go-trees/blob/master/splay/)
 
 ### Probabilistic:
-* Treap [WIP]
+* [Treap](https://github.com/freddygv/go-trees/blob/master/treap/)
