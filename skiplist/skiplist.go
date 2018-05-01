@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"reflect"
 	"time"
 )
 
@@ -22,26 +23,27 @@ const (
 
 // New returns an empty Skip List
 func New() *List {
-	root := &Node{
+	root := Node{
 		Value:     minValue,
 		Level:     maxHeight,
-		Shortcuts: make([]*Node, maxHeight),
+		Shortcuts: make([]*Node, maxHeight+1),
 	}
-	tail := &Node{
-		Value:     maxValue,
-		Level:     maxHeight,
-		Shortcuts: make([]*Node, maxHeight),
+	tail := Node{Value: maxValue}
+
+	// Create shortcuts from root to tail at all (maxHeight) levels
+	for i := 0; i < maxHeight; i++ {
+		root.Shortcuts[i] = &tail
 	}
+
 	return &List{
-		Head: root,
-		tail: tail,
+		Head: &root,
+		tail: &tail,
 		rnd:  rand.New(rand.NewSource(time.Now().UnixNano())),
 	}
 }
 
 // Get searches the list for a target, returns node ptr and boolean indicating if found.
-// If the target value is not found, a pointer to the previous node is returned
-func (list *List) Get(target int) (*Node, bool) {
+func (list *List) Get(target interface{}) (*Node, bool) {
 	level := maxHeight
 	current := list.Head
 
@@ -49,7 +51,7 @@ func (list *List) Get(target int) (*Node, bool) {
 		neighbor := current.Shortcuts[level]
 
 		// Advance while the neighbor does not overshoot target
-		for compare(neighbor.Value, target) <= 0 {
+		for neighbor != nil && compare(neighbor.Value, target) <= 0 {
 			current = neighbor
 			neighbor = current.Shortcuts[level]
 		}
@@ -60,11 +62,11 @@ func (list *List) Get(target int) (*Node, bool) {
 		level--
 	}
 
-	return current, false
+	return nil, false
 }
 
 // Insert will add a new node to the list with the given value
-func (list *List) Insert(value int) {
+func (list *List) Insert(value interface{}) {
 	var level int8
 
 	// Generate random int32 and take least significant bits as coinflips to increment level
@@ -74,18 +76,42 @@ func (list *List) Insert(value int) {
 		r >>= 1
 	}
 
-	// TODO: Update shortcuts
-	// previous, _ := list.Get(value)
-	// inserted := Node{
-	// 	Value:     value,
-	// 	Level:     level,
-	// 	Shortcuts: make([]*Node, maxHeight),
-	// }
+	inserted := Node{
+		Value:     value,
+		Level:     level,
+		Shortcuts: make([]*Node, maxHeight+1),
+	}
+
+	current := list.Head
+
+	for level >= 0 {
+		neighbor := current.Shortcuts[level]
+
+		// Advance while the neighbor does not overshoot target
+		for compare(neighbor.Value, value) <= 0 {
+			current = neighbor
+			neighbor = current.Shortcuts[level]
+		}
+
+		inserted.Shortcuts[level] = neighbor
+		current.Shortcuts[level] = &inserted
+		level--
+	}
+
 }
 
-// TODO:
 func (list *List) toSlice() []*Node {
 	arr := make([]*Node, 0)
+
+	current := list.Head
+	next := current.Shortcuts[0]
+
+	// Continue until tail, which has no Shortcuts
+	for next.Shortcuts != nil {
+		arr = append(arr, next)
+		current = next
+		next = current.Shortcuts[0]
+	}
 
 	return arr
 }
@@ -106,7 +132,8 @@ func compare(a, b interface{}) int {
 	intA, okA := a.(int)
 	intB, okB := b.(int)
 	if !okA || !okB {
-		panic("item is not an integer")
+		err := fmt.Errorf("compare expected: (int, int), got: (%v, %v)", reflect.TypeOf(a), reflect.TypeOf(b))
+		panic(err)
 	}
 	return intA - intB
 }
