@@ -2,6 +2,7 @@ package redblack
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // Tree contains a reference to the root of the Red-Black tree
@@ -257,7 +258,8 @@ func compare(a, b interface{}) int {
 	intA, okA := a.(int)
 	intB, okB := b.(int)
 	if !okA || !okB {
-		panic("item is not an integer")
+		err := fmt.Errorf("expected: (int, int), got: (%v, %v)", reflect.TypeOf(a), reflect.TypeOf(b))
+		panic(err)
 	}
 	return intA - intB
 }
