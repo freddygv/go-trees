@@ -11,3 +11,6 @@ Currently only working on supporting `Insert` and `Get` methods for `int` type.
 
 ### Probabilistic:
 * [Treap](https://github.com/freddygv/go-trees/blob/master/treap/)
+
+### Related:
+* Skip List [WIP]
