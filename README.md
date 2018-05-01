@@ -2,7 +2,7 @@
 
 Tree data structures in Go.
 
-Currently only working on supporting `Insert` and `Get` methods. Default comparator supports `int` but can be modified for other basic or custom types.
+Currently only working on supporting `Insert` and `Get` methods. Default `compare` function supports `int` but can be modified for other basic or custom types.
 
 ## Contents
 ### Deterministic:
@@ -13,4 +13,4 @@ Currently only working on supporting `Insert` and `Get` methods. Default compara
 * [Treap](https://github.com/freddygv/go-trees/blob/master/treap/)
 
 ### Related:
-* Skip List [WIP]
+* [Skip List](https://github.com/freddygv/go-trees/blob/master/skiplist/)

@@ -1,4 +1,4 @@
-package splay
+package skiplist
 
 import (
 	"testing"
@@ -22,8 +22,8 @@ func TestInsert(t *testing.T) {
 		},
 		{
 			desc:   "duplicated",
-			input:  []int{5, 5, 5, 5, 5, 5, 5, 5},
-			expect: []int{5, 5, 5, 5, 5, 5, 5, 5},
+			input:  []int{5, 5, 5, 5, 5, 5},
+			expect: []int{5, 5, 5, 5, 5, 5},
 		},
 		{
 			desc:   "random",
@@ -36,12 +36,12 @@ func TestInsert(t *testing.T) {
 		t.Run(tc.desc, func(t *testing.T) {
 			t.Parallel()
 
-			tree := NewTree()
+			list := New()
 			for _, v := range tc.input {
-				tree.Insert(v)
+				list.Insert(v)
 			}
 
-			result := tree.toSlice()
+			result := list.toSlice()
 			for i, v := range result {
 				if v.Value != tc.expect[i] {
 					t.Fatalf("expected: '%v', got '%v'", tc.input[i], v.Value)
@@ -74,61 +74,16 @@ func TestGet(t *testing.T) {
 		t.Run(tc.desc, func(t *testing.T) {
 			t.Parallel()
 
-			tree := NewTree()
+			list := New()
 			for _, v := range tc.input {
-				tree.Insert(v)
+				list.Insert(v)
 			}
 
 			for _, v := range tc.input {
-				if _, ok := tree.Get(v); !ok {
+				if _, ok := list.Get(v); !ok {
 					t.Fatalf("failed to get: %v", v)
 				}
 			}
 		})
-
 	}
-
-	t.Run("1 to 7 and two gets", func(t *testing.T) {
-		t.Parallel()
-
-		input := []int{1, 2, 3, 4, 5, 6, 7}
-
-		tree := NewTree()
-		for _, v := range input {
-			tree.Insert(v)
-		}
-
-		root, _ := tree.Get(1)
-
-		if root != tree.Root {
-			t.Fatalf("failed to splay: %v", root.Value)
-		}
-
-		result := []*Node{
-			root,
-			root.Right.Left.Left,
-			root.Right.Left.Left.Right,
-			root.Right.Left,
-			root.Right.Left.Right,
-			root.Right,
-			root.Right.Right,
-		}
-
-		for i := 1; i < 8; i++ {
-			if result[i-1].Value != i {
-				t.Fatalf("expected: '%v', got: '%v'", i, result[i-1])
-			}
-		}
-
-		n, ok := tree.Get(8)
-		if n != nil {
-			t.Fatalf("expected nil pointer for missing value")
-		}
-		if ok {
-			t.Fatalf("expecting false for Get result")
-		}
-		if tree.Root.Value != 7 {
-			t.Fatalf("expecting next closest value at root")
-		}
-	})
 }
