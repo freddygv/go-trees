@@ -2,7 +2,7 @@
 
 Tree data structures in Go.
 
-Currently only working on supporting `Insert` and `Get` methods for `int` type.
+Currently only working on supporting `Insert` and `Get` methods. Default comparator supports `int` but can be modified for other basic or custom types.
 
 ## Contents
 ### Deterministic:

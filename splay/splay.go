@@ -134,7 +134,7 @@ func (tree *Tree) toSlice() []*Node {
 
 // Node is a sub-tree
 type Node struct {
-	Value  int
+	Value  interface{}
 	Left   *Node
 	Right  *Node
 	Parent *Node
@@ -208,6 +208,12 @@ func (node *Node) String() string {
 	return fmt.Sprintf("%v", node.Value)
 }
 
-func compare(a, b int) int {
-	return a - b
+// TODO: Don't panic
+func compare(a, b interface{}) int {
+	intA, okA := a.(int)
+	intB, okB := b.(int)
+	if !okA || !okB {
+		panic("item is not an integer")
+	}
+	return intA - intB
 }

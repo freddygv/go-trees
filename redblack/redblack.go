@@ -148,7 +148,7 @@ func (tree *Tree) toSlice() []*Node {
 
 // Node is a sub-tree in a Red-Black tree
 type Node struct {
-	Value  int
+	Value  interface{}
 	red    bool
 	Left   *Node
 	Right  *Node
@@ -227,10 +227,6 @@ func (node *Node) leftRotate() {
 	node.Parent = child
 }
 
-func compare(a, b int) int {
-	return a - b
-}
-
 // In order traversal to flatten tree into slice
 func (node *Node) flatten(arr *[]*Node) {
 	if node == nil {
@@ -254,4 +250,14 @@ func (node *Node) String() string {
 	}
 
 	return fmt.Sprintf("%v,%s", node.Value, color)
+}
+
+// TODO: Don't panic
+func compare(a, b interface{}) int {
+	intA, okA := a.(int)
+	intB, okB := b.(int)
+	if !okA || !okB {
+		panic("item is not an integer")
+	}
+	return intA - intB
 }
