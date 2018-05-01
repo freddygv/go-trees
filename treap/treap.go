@@ -23,15 +23,15 @@ func NewTree() *Tree {
 	}
 }
 
-// Get searches the Tree for a value, returns node ptr and boolean indicating if found
-func (tree *Tree) Get(value int) (*Node, bool) {
+// Get searches the Tree for a target, returns node ptr and boolean indicating if found
+func (tree *Tree) Get(target int) (*Node, bool) {
 	root := tree.Root
 
 	for root != nil {
-		if compare(value, root.Value) == 0 {
+		if compare(target, root.Value) == 0 {
 			return root, true
 		}
-		if compare(value, root.Value) < 0 {
+		if compare(target, root.Value) < 0 {
 			root = root.Left
 		} else {
 			root = root.Right

@@ -14,20 +14,20 @@ func NewTree() *Tree {
 	return &Tree{}
 }
 
-// Get searches the Tree for a value, returns node ptr and boolean indicating if found
-func (tree *Tree) Get(value int) (*Node, bool) {
+// Get searches the Tree for a target, returns node ptr and boolean indicating if found
+func (tree *Tree) Get(target int) (*Node, bool) {
 	current := tree.Root
 	parent := current.Parent
 
 	for current != nil {
-		if compare(value, current.Value) == 0 {
+		if compare(target, current.Value) == 0 {
 			// Splay the inserted node to make it the root
 			tree.splay(current)
 			return current, true
 		}
 
 		parent = current
-		if compare(value, current.Value) < 0 {
+		if compare(target, current.Value) < 0 {
 			current = current.Left
 		} else {
 			current = current.Right
