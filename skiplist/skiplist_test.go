@@ -26,6 +26,11 @@ func TestInsert(t *testing.T) {
 			expect: []int{5, 5, 5, 5, 5, 5},
 		},
 		{
+			desc:   "mix",
+			input:  []int{7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7},
+			expect: []int{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7},
+		},
+		{
 			desc:   "random",
 			input:  []int{1298498081, 2019727887, 1427131847, 939984059, 911902081, 1474941318, 140954425},
 			expect: []int{140954425, 911902081, 939984059, 1298498081, 1427131847, 1474941318, 2019727887},
@@ -86,4 +91,17 @@ func TestGet(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("missing item", func(t *testing.T) {
+		t.Parallel()
+
+		list := New()
+		n, ok := list.Get(1)
+		if n != nil {
+			t.Errorf("expected nil")
+		}
+		if ok {
+			t.Errorf("expected false")
+		}
+	})
 }
