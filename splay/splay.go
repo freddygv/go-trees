@@ -16,7 +16,7 @@ func NewTree() *Tree {
 }
 
 // Get searches the Tree for a target, returns node ptr and boolean indicating if found
-func (tree *Tree) Get(target int) (*Node, bool) {
+func (tree *Tree) Get(target interface{}) (*Node, bool) {
 	current := tree.Root
 	parent := current.Parent
 
@@ -41,13 +41,13 @@ func (tree *Tree) Get(target int) (*Node, bool) {
 }
 
 // Insert will add a new node to the tree with the given value
-func (tree *Tree) Insert(value int) {
+func (tree *Tree) Insert(value interface{}) {
 	current := tree.naiveInsert(value)
 	tree.splay(current)
 }
 
 // Naive BST insertion for a given value
-func (tree *Tree) naiveInsert(value int) *Node {
+func (tree *Tree) naiveInsert(value interface{}) *Node {
 	var inserted *Node
 
 	root := tree.Root
@@ -214,7 +214,7 @@ func compare(a, b interface{}) int {
 	intA, okA := a.(int)
 	intB, okB := b.(int)
 	if !okA || !okB {
-		err := fmt.Errorf("expected: (int, int), got: (%v, %v)", reflect.TypeOf(a), reflect.TypeOf(b))
+		err := fmt.Errorf("compare expected: (int, int), got: (%v, %v)", reflect.TypeOf(a), reflect.TypeOf(b))
 		panic(err)
 	}
 	return intA - intB

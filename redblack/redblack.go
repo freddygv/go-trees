@@ -16,7 +16,7 @@ func NewTree() *Tree {
 }
 
 // Get searches a Red-Black Tree for a target, returns node ptr and boolean indicating if found
-func (tree *Tree) Get(target int) (*Node, bool) {
+func (tree *Tree) Get(target interface{}) (*Node, bool) {
 	root := tree.Root
 
 	for root != nil {
@@ -34,7 +34,7 @@ func (tree *Tree) Get(target int) (*Node, bool) {
 }
 
 // Insert will add a new node to the tree with the given value
-func (tree *Tree) Insert(value int) {
+func (tree *Tree) Insert(value interface{}) {
 	current := tree.naiveInsert(value)
 	if current.Parent == nil || current.Parent.Parent == nil {
 		return
@@ -109,7 +109,7 @@ func (tree *Tree) Insert(value int) {
 }
 
 // Naive BST insertion for a given value (new nodes are always red)
-func (tree *Tree) naiveInsert(value int) *Node {
+func (tree *Tree) naiveInsert(value interface{}) *Node {
 	var inserted *Node
 
 	root := tree.Root
@@ -157,7 +157,7 @@ type Node struct {
 }
 
 // newNode adds a new red node with two empty black leaves
-func newNode(value int, red bool, parent *Node) *Node {
+func newNode(value interface{}, red bool, parent *Node) *Node {
 	node := Node{Value: value, red: red, Parent: parent}
 
 	l := Node{Parent: &node}
@@ -258,7 +258,7 @@ func compare(a, b interface{}) int {
 	intA, okA := a.(int)
 	intB, okB := b.(int)
 	if !okA || !okB {
-		err := fmt.Errorf("expected: (int, int), got: (%v, %v)", reflect.TypeOf(a), reflect.TypeOf(b))
+		err := fmt.Errorf("compare expected: (int, int), got: (%v, %v)", reflect.TypeOf(a), reflect.TypeOf(b))
 		panic(err)
 	}
 	return intA - intB
