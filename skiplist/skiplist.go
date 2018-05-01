@@ -76,7 +76,7 @@ func (list *List) Insert(value interface{}) {
 		r >>= 1
 	}
 
-	inserted := Node{
+	new := Node{
 		Value:     value,
 		Level:     level,
 		Shortcuts: make([]*Node, maxHeight+1),
@@ -93,8 +93,8 @@ func (list *List) Insert(value interface{}) {
 			neighbor = current.Shortcuts[level]
 		}
 
-		inserted.Shortcuts[level] = neighbor
-		current.Shortcuts[level] = &inserted
+		new.Shortcuts[level] = neighbor
+		current.Shortcuts[level] = &new
 		level--
 	}
 
