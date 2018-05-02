@@ -2,7 +2,7 @@
 
 Tree data structures in Go.
 
-Currently only working on supporting `Insert` and `Get` methods. Default `compare` function supports `int` but can be modified for other basic or custom types.
+Currently only working on supporting `Insert` and `Get` methods. Default `compare` function is built for `int` type but can be modified for other basic or custom types.
 
 ## Contents
 ### Deterministic:
