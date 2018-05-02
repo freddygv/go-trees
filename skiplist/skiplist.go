@@ -17,8 +17,8 @@ type List struct {
 
 const (
 	maxHeight = 31
-	minValue  = math.MinInt32
-	maxValue  = math.MaxInt32
+	minValue  = math.MinInt64
+	maxValue  = math.MaxInt64
 )
 
 // New returns an empty Skip List
@@ -31,7 +31,7 @@ func New() *List {
 	tail := Node{Value: maxValue}
 
 	// Create shortcuts from root to tail at all (maxHeight) levels
-	for i := 0; i < maxHeight; i++ {
+	for i := 0; i <= maxHeight; i++ {
 		root.Shortcuts[i] = &tail
 	}
 
