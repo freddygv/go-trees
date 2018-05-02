@@ -1,6 +1,7 @@
 package trees
 
 import (
+	"math/rand"
 	"testing"
 
 	"github.com/freddygv/go-trees/redblack"
@@ -11,35 +12,151 @@ import (
 
 var input []int
 
-// BenchmarkInsertSeq10 tests sequential insert of 0 to 9
+var insertTable = []struct {
+	desc  string
+	bench func(*testing.B)
+}{
+	{
+		desc:  "splay",
+		bench: insertSplay,
+	},
+	{
+		desc:  "redblack",
+		bench: insertRedBlack,
+	},
+	{
+		desc:  "treap",
+		bench: insertTreap,
+	},
+	{
+		desc:  "skiplist",
+		bench: insertSkip,
+	},
+}
+
+// BenchmarkInsertSeqN tests sequential insert from 0 to N
 func BenchmarkInsertSeq10(b *testing.B) {
+	b.StopTimer()
 	for i := 0; i < 10; i++ {
 		input = append(input, i)
 	}
 
-	tt := []struct {
-		desc  string
-		bench func(*testing.B)
-	}{
-		{
-			desc:  "splay",
-			bench: insertSplay,
-		},
-		{
-			desc:  "redblack",
-			bench: insertRedBlack,
-		},
-		{
-			desc:  "treap",
-			bench: insertTreap,
-		},
-		{
-			desc:  "skiplist",
-			bench: insertSkip,
-		},
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertSeq100(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 100; i++ {
+		input = append(input, i)
 	}
 
-	for _, tc := range tt {
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertSeq1000(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 1000; i++ {
+		input = append(input, i)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertSeq10000(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 10000; i++ {
+		input = append(input, i)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertSeq100000(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 100000; i++ {
+		input = append(input, i)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+// BenchmarkInsertRandN tests N random int inserts
+func BenchmarkInsertRand10(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 10; i++ {
+		r := rand.Int()
+		input = append(input, r)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertRand100(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 100; i++ {
+		r := rand.Int()
+		input = append(input, r)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertRand1000(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 1000; i++ {
+		r := rand.Int()
+		input = append(input, r)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertRand10000(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 10000; i++ {
+		r := rand.Int()
+		input = append(input, r)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
+		b.Run(tc.desc, tc.bench)
+	}
+}
+
+func BenchmarkInsertRand100000(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < 100000; i++ {
+		r := rand.Int()
+		input = append(input, r)
+	}
+
+	for _, tc := range insertTable {
+		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
