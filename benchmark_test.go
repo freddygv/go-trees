@@ -98,7 +98,7 @@ func BenchmarkReadSeq10(b *testing.B) {
 	copy(reads, inputs)
 	sort.Ints(reads)
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -116,7 +116,7 @@ func BenchmarkReadRand10(b *testing.B) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -130,7 +130,7 @@ func BenchmarkReadRepeat10(b *testing.B) {
 		reads = append(reads, inputs[0])
 	}
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -171,7 +171,7 @@ func BenchmarkReadSeq100(b *testing.B) {
 	copy(reads, inputs)
 	sort.Ints(reads)
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -189,7 +189,7 @@ func BenchmarkReadRand100(b *testing.B) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -203,7 +203,7 @@ func BenchmarkReadRepeat100(b *testing.B) {
 		reads = append(reads, inputs[0])
 	}
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -244,7 +244,7 @@ func BenchmarkReadSeq1000(b *testing.B) {
 	copy(reads, inputs)
 	sort.Ints(reads)
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -262,7 +262,7 @@ func BenchmarkReadRand1000(b *testing.B) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -276,7 +276,7 @@ func BenchmarkReadRepeat1000(b *testing.B) {
 		reads = append(reads, inputs[0])
 	}
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -317,7 +317,7 @@ func BenchmarkReadSeq10000(b *testing.B) {
 	copy(reads, inputs)
 	sort.Ints(reads)
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -335,7 +335,7 @@ func BenchmarkReadRand10000(b *testing.B) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -349,7 +349,7 @@ func BenchmarkReadRepeat10000(b *testing.B) {
 		reads = append(reads, inputs[0])
 	}
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -390,7 +390,7 @@ func BenchmarkReadSeq100000(b *testing.B) {
 	copy(reads, inputs)
 	sort.Ints(reads)
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -408,7 +408,7 @@ func BenchmarkReadRand100000(b *testing.B) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
@@ -422,7 +422,7 @@ func BenchmarkReadRepeat100000(b *testing.B) {
 		reads = append(reads, inputs[0])
 	}
 
-	for _, tc := range insertTable {
+	for _, tc := range readTable {
 		b.Run(tc.desc, tc.bench)
 	}
 }
