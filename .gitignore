@@ -1,8 +1,10 @@
 *.pdf
+report*
 debug*
+cli/
 
 # Binaries for programs and plugins
-bin/
+**/bin/
 *.exe
 *.dll
 *.so
