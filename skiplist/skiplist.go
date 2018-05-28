@@ -10,9 +10,10 @@ import (
 
 // List exports a reference to the head of the list
 type List struct {
-	Head *Node
-	tail *Node
-	rnd  *rand.Rand
+	Head   *Node
+	tail   *Node
+	height int8
+	rnd    *rand.Rand
 }
 
 const (
@@ -44,22 +45,20 @@ func New() *List {
 
 // Get searches the list for a target, returns node ptr and boolean indicating if found.
 func (list *List) Get(target interface{}) (*Node, bool) {
-	level := maxHeight
 	current := list.Head
 
-	for level >= 0 {
-		neighbor := current.Shortcuts[level]
+	for i := list.height; i >= 0; i-- {
+		neighbor := current.Shortcuts[i]
 
 		// Advance while the neighbor does not overshoot target
 		for neighbor != nil && compare(neighbor.Value, target) <= 0 {
 			current = neighbor
-			neighbor = current.Shortcuts[level]
+			neighbor = current.Shortcuts[i]
 		}
 
 		if compare(target, current.Value) == 0 {
 			return current, true
 		}
-		level--
 	}
 
 	return nil, false
@@ -76,6 +75,10 @@ func (list *List) Insert(value interface{}) {
 		r >>= 1
 	}
 
+	if level > list.height {
+		list.height = level
+	}
+
 	new := Node{
 		Value:     value,
 		Level:     level,
@@ -84,20 +87,23 @@ func (list *List) Insert(value interface{}) {
 
 	current := list.Head
 
-	for level >= 0 {
-		neighbor := current.Shortcuts[level]
+	for i := list.height; i >= 0; i-- {
+		neighbor := current.Shortcuts[i]
 
 		// Advance while the neighbor does not overshoot target
 		for compare(neighbor.Value, value) <= 0 {
 			current = neighbor
-			neighbor = current.Shortcuts[level]
+			neighbor = current.Shortcuts[i]
 		}
 
-		new.Shortcuts[level] = neighbor
-		current.Shortcuts[level] = &new
-		level--
-	}
+		if i > level {
+			continue
+		}
 
+		// Insert node at current level by updating neighbor shortcuts
+		new.Shortcuts[i] = neighbor
+		current.Shortcuts[i] = &new
+	}
 }
 
 func (list *List) toSlice() []*Node {
