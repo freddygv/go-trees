@@ -62,40 +62,35 @@ var readTable = []struct {
 
 // BenchmarkInsertSeqN tests sequential insert from 0 to N
 func BenchmarkInsertSeq10(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10; i++ {
 		inputs = append(inputs, i)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 // BenchmarkInsertRandN tests N random int inserts
 func BenchmarkInsertRand10(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 // BenchmarkReadSeqN tests sequential reads from 0 to N
 func BenchmarkReadSeq10(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	sort.Ints(reads)
 
 	for _, tc := range readTable {
@@ -105,13 +100,12 @@ func BenchmarkReadSeq10(b *testing.B) {
 
 // BenchmarkReadRandN tests N random reads
 func BenchmarkReadRand10(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	rand.Shuffle(len(reads), func(i, j int) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
@@ -123,7 +117,6 @@ func BenchmarkReadRand10(b *testing.B) {
 
 // BenchmarkReadRepeatedN tests N repeated reads
 func BenchmarkReadRepeat10(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -136,39 +129,34 @@ func BenchmarkReadRepeat10(b *testing.B) {
 }
 
 func BenchmarkInsertSeq100(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100; i++ {
 		inputs = append(inputs, i)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 func BenchmarkInsertRand100(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 // BenchmarkReadSeqN tests sequential reads from 0 to N
 func BenchmarkReadSeq100(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	sort.Ints(reads)
 
 	for _, tc := range readTable {
@@ -178,13 +166,12 @@ func BenchmarkReadSeq100(b *testing.B) {
 
 // BenchmarkReadRandN tests N random reads
 func BenchmarkReadRand100(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	rand.Shuffle(len(reads), func(i, j int) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
@@ -196,7 +183,6 @@ func BenchmarkReadRand100(b *testing.B) {
 
 // BenchmarkReadRepeatedN tests N repeated reads
 func BenchmarkReadRepeat100(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -209,39 +195,34 @@ func BenchmarkReadRepeat100(b *testing.B) {
 }
 
 func BenchmarkInsertSeq1000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 1000; i++ {
 		inputs = append(inputs, i)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 func BenchmarkInsertRand1000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 // BenchmarkReadSeqN tests sequential reads from 0 to N
 func BenchmarkReadSeq1000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	sort.Ints(reads)
 
 	for _, tc := range readTable {
@@ -251,13 +232,12 @@ func BenchmarkReadSeq1000(b *testing.B) {
 
 // BenchmarkReadRandN tests N random reads
 func BenchmarkReadRand1000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	rand.Shuffle(len(reads), func(i, j int) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
@@ -269,7 +249,6 @@ func BenchmarkReadRand1000(b *testing.B) {
 
 // BenchmarkReadRepeatedN tests N repeated reads
 func BenchmarkReadRepeat1000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -282,39 +261,34 @@ func BenchmarkReadRepeat1000(b *testing.B) {
 }
 
 func BenchmarkInsertSeq10000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10000; i++ {
 		inputs = append(inputs, i)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 func BenchmarkInsertRand10000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 // BenchmarkReadSeqN tests sequential reads from 0 to N
 func BenchmarkReadSeq10000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	sort.Ints(reads)
 
 	for _, tc := range readTable {
@@ -324,13 +298,12 @@ func BenchmarkReadSeq10000(b *testing.B) {
 
 // BenchmarkReadRandN tests N random reads
 func BenchmarkReadRand10000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	rand.Shuffle(len(reads), func(i, j int) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
@@ -342,7 +315,6 @@ func BenchmarkReadRand10000(b *testing.B) {
 
 // BenchmarkReadRepeatedN tests N repeated reads
 func BenchmarkReadRepeat10000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -355,39 +327,34 @@ func BenchmarkReadRepeat10000(b *testing.B) {
 }
 
 func BenchmarkInsertSeq100000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100000; i++ {
 		inputs = append(inputs, i)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 func BenchmarkInsertRand100000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
 	}
 
 	for _, tc := range insertTable {
-		b.StartTimer()
 		b.Run(tc.desc, tc.bench)
 	}
 }
 
 // BenchmarkReadSeqN tests sequential reads from 0 to N
 func BenchmarkReadSeq100000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	sort.Ints(reads)
 
 	for _, tc := range readTable {
@@ -397,13 +364,12 @@ func BenchmarkReadSeq100000(b *testing.B) {
 
 // BenchmarkReadRandN tests N random reads
 func BenchmarkReadRand100000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
+		reads = append(reads, r)
 	}
 
-	copy(reads, inputs)
 	rand.Shuffle(len(reads), func(i, j int) {
 		reads[i], reads[j] = reads[j], reads[i]
 	})
@@ -415,7 +381,6 @@ func BenchmarkReadRand100000(b *testing.B) {
 
 // BenchmarkReadRepeatedN tests N repeated reads
 func BenchmarkReadRepeat100000(b *testing.B) {
-	b.StopTimer()
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -428,6 +393,8 @@ func BenchmarkReadRepeat100000(b *testing.B) {
 }
 
 func insertSplay(b *testing.B) {
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		tree := splay.NewTree()
 
@@ -438,14 +405,15 @@ func insertSplay(b *testing.B) {
 }
 
 func readSplay(b *testing.B) {
+	tree := splay.NewTree()
+
+	for _, v := range inputs {
+		tree.Insert(v)
+	}
+
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
-		tree := splay.NewTree()
-
-		for _, v := range inputs {
-			tree.Insert(v)
-		}
-
-		b.StartTimer()
 		for _, v := range reads {
 			tree.Get(v)
 		}
@@ -453,6 +421,8 @@ func readSplay(b *testing.B) {
 }
 
 func insertRedBlack(b *testing.B) {
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		tree := redblack.NewTree()
 
@@ -463,14 +433,15 @@ func insertRedBlack(b *testing.B) {
 }
 
 func readRedBlack(b *testing.B) {
+	tree := redblack.NewTree()
+
+	for _, v := range inputs {
+		tree.Insert(v)
+	}
+
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
-		tree := redblack.NewTree()
-
-		for _, v := range inputs {
-			tree.Insert(v)
-		}
-
-		b.StartTimer()
 		for _, v := range reads {
 			tree.Get(v)
 		}
@@ -478,6 +449,8 @@ func readRedBlack(b *testing.B) {
 }
 
 func insertTreap(b *testing.B) {
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		tree := treap.NewTree()
 
@@ -488,7 +461,11 @@ func insertTreap(b *testing.B) {
 }
 
 func readTreap(b *testing.B) {
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+
 		tree := treap.NewTree()
 
 		for _, v := range inputs {
@@ -503,6 +480,8 @@ func readTreap(b *testing.B) {
 }
 
 func insertSkip(b *testing.B) {
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
 		list := skiplist.New()
 
@@ -513,7 +492,11 @@ func insertSkip(b *testing.B) {
 }
 
 func readSkip(b *testing.B) {
+	b.ResetTimer()
+
 	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+
 		list := skiplist.New()
 
 		for _, v := range inputs {
