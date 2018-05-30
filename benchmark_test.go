@@ -60,8 +60,8 @@ var readTable = []struct {
 	},
 }
 
-// BenchmarkInsertSeqN tests sequential insert from 0 to N
-func BenchmarkInsertSeq10(b *testing.B) {
+// BenchmarkInsertSequentialN tests sequential insert from 0 to N
+func BenchmarkInsertSequential10(b *testing.B) {
 	for i := 0; i < 10; i++ {
 		inputs = append(inputs, i)
 	}
@@ -71,8 +71,8 @@ func BenchmarkInsertSeq10(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRandN tests N random int inserts
-func BenchmarkInsertRand10(b *testing.B) {
+// BenchmarkInsertRandomN tests N random int inserts
+func BenchmarkInsertRandom10(b *testing.B) {
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -83,8 +83,8 @@ func BenchmarkInsertRand10(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRepeatedN tests N repeated inserts
-func BenchmarkInsertRepeat10(b *testing.B) {
+// BenchmarkInsertRepeatededN tests N repeated inserts
+func BenchmarkInsertRepeated10(b *testing.B) {
 	r := rand.Int()
 
 	for i := 0; i < 10; i++ {
@@ -96,8 +96,8 @@ func BenchmarkInsertRepeat10(b *testing.B) {
 	}
 }
 
-// BenchmarkReadSeqN tests sequential reads from 0 to N
-func BenchmarkReadSeq10(b *testing.B) {
+// BenchmarkReadSequentialN tests sequential reads from 0 to N
+func BenchmarkReadSequential10(b *testing.B) {
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -111,8 +111,8 @@ func BenchmarkReadSeq10(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRandN tests N random reads
-func BenchmarkReadRand10(b *testing.B) {
+// BenchmarkReadRandomN tests N random reads
+func BenchmarkReadRandom10(b *testing.B) {
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -128,8 +128,8 @@ func BenchmarkReadRand10(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRepeatedN tests N repeated reads
-func BenchmarkReadRepeat10(b *testing.B) {
+// BenchmarkReadRepeatededN tests N repeated reads
+func BenchmarkReadRepeated10(b *testing.B) {
 	for i := 0; i < 10; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -141,8 +141,8 @@ func BenchmarkReadRepeat10(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertSeqN tests sequential insert from 0 to N
-func BenchmarkInsertSeq100(b *testing.B) {
+// BenchmarkInsertSequentialN tests sequential insert from 0 to N
+func BenchmarkInsertSequential100(b *testing.B) {
 	for i := 0; i < 100; i++ {
 		inputs = append(inputs, i)
 	}
@@ -152,8 +152,8 @@ func BenchmarkInsertSeq100(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRandN tests N random int inserts
-func BenchmarkInsertRand100(b *testing.B) {
+// BenchmarkInsertRandomN tests N random int inserts
+func BenchmarkInsertRandom100(b *testing.B) {
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -164,8 +164,8 @@ func BenchmarkInsertRand100(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRepeatedN tests N repeated inserts
-func BenchmarkInsertRepeat100(b *testing.B) {
+// BenchmarkInsertRepeatededN tests N repeated inserts
+func BenchmarkInsertRepeated100(b *testing.B) {
 	r := rand.Int()
 
 	for i := 0; i < 100; i++ {
@@ -177,8 +177,8 @@ func BenchmarkInsertRepeat100(b *testing.B) {
 	}
 }
 
-// BenchmarkReadSeqN tests sequential reads from 0 to N
-func BenchmarkReadSeq100(b *testing.B) {
+// BenchmarkReadSequentialN tests sequential reads from 0 to N
+func BenchmarkReadSequential100(b *testing.B) {
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -192,8 +192,8 @@ func BenchmarkReadSeq100(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRandN tests N random reads
-func BenchmarkReadRand100(b *testing.B) {
+// BenchmarkReadRandomN tests N random reads
+func BenchmarkReadRandom100(b *testing.B) {
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -209,8 +209,8 @@ func BenchmarkReadRand100(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRepeatedN tests N repeated reads
-func BenchmarkReadRepeat100(b *testing.B) {
+// BenchmarkReadRepeatededN tests N repeated reads
+func BenchmarkReadRepeated100(b *testing.B) {
 	for i := 0; i < 100; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -222,8 +222,8 @@ func BenchmarkReadRepeat100(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertSeqN tests sequential insert from 0 to N
-func BenchmarkInsertSeq1000(b *testing.B) {
+// BenchmarkInsertSequentialN tests sequential insert from 0 to N
+func BenchmarkInsertSequential1000(b *testing.B) {
 	for i := 0; i < 1000; i++ {
 		inputs = append(inputs, i)
 	}
@@ -233,8 +233,8 @@ func BenchmarkInsertSeq1000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRandN tests N random int inserts
-func BenchmarkInsertRand1000(b *testing.B) {
+// BenchmarkInsertRandomN tests N random int inserts
+func BenchmarkInsertRandom1000(b *testing.B) {
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -245,8 +245,8 @@ func BenchmarkInsertRand1000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRepeatedN tests N repeated inserts
-func BenchmarkInsertRepeat1000(b *testing.B) {
+// BenchmarkInsertRepeatededN tests N repeated inserts
+func BenchmarkInsertRepeated1000(b *testing.B) {
 	r := rand.Int()
 
 	for i := 0; i < 1000; i++ {
@@ -258,8 +258,8 @@ func BenchmarkInsertRepeat1000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadSeqN tests sequential reads from 0 to N
-func BenchmarkReadSeq1000(b *testing.B) {
+// BenchmarkReadSequentialN tests sequential reads from 0 to N
+func BenchmarkReadSequential1000(b *testing.B) {
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -273,8 +273,8 @@ func BenchmarkReadSeq1000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRandN tests N random reads
-func BenchmarkReadRand1000(b *testing.B) {
+// BenchmarkReadRandomN tests N random reads
+func BenchmarkReadRandom1000(b *testing.B) {
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -290,8 +290,8 @@ func BenchmarkReadRand1000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRepeatedN tests N repeated reads
-func BenchmarkReadRepeat1000(b *testing.B) {
+// BenchmarkReadRepeatededN tests N repeated reads
+func BenchmarkReadRepeated1000(b *testing.B) {
 	for i := 0; i < 1000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -303,8 +303,8 @@ func BenchmarkReadRepeat1000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertSeqN tests sequential insert from 0 to N
-func BenchmarkInsertSeq10000(b *testing.B) {
+// BenchmarkInsertSequentialN tests sequential insert from 0 to N
+func BenchmarkInsertSequential10000(b *testing.B) {
 	for i := 0; i < 10000; i++ {
 		inputs = append(inputs, i)
 	}
@@ -314,8 +314,8 @@ func BenchmarkInsertSeq10000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRandN tests N random int inserts
-func BenchmarkInsertRand10000(b *testing.B) {
+// BenchmarkInsertRandomN tests N random int inserts
+func BenchmarkInsertRandom10000(b *testing.B) {
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -326,8 +326,8 @@ func BenchmarkInsertRand10000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRepeatedN tests N repeated inserts
-func BenchmarkInsertRepeat10000(b *testing.B) {
+// BenchmarkInsertRepeatededN tests N repeated inserts
+func BenchmarkInsertRepeated10000(b *testing.B) {
 	r := rand.Int()
 
 	for i := 0; i < 10000; i++ {
@@ -339,8 +339,8 @@ func BenchmarkInsertRepeat10000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadSeqN tests sequential reads from 0 to N
-func BenchmarkReadSeq10000(b *testing.B) {
+// BenchmarkReadSequentialN tests sequential reads from 0 to N
+func BenchmarkReadSequential10000(b *testing.B) {
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -354,8 +354,8 @@ func BenchmarkReadSeq10000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRandN tests N random reads
-func BenchmarkReadRand10000(b *testing.B) {
+// BenchmarkReadRandomN tests N random reads
+func BenchmarkReadRandom10000(b *testing.B) {
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -371,8 +371,8 @@ func BenchmarkReadRand10000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRepeatedN tests N repeated reads
-func BenchmarkReadRepeat10000(b *testing.B) {
+// BenchmarkReadRepeatededN tests N repeated reads
+func BenchmarkReadRepeated10000(b *testing.B) {
 	for i := 0; i < 10000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -384,8 +384,8 @@ func BenchmarkReadRepeat10000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertSeqN tests sequential insert from 0 to N
-func BenchmarkInsertSeq100000(b *testing.B) {
+// BenchmarkInsertSequentialN tests sequential insert from 0 to N
+func BenchmarkInsertSequential100000(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		inputs = append(inputs, i)
 	}
@@ -395,8 +395,8 @@ func BenchmarkInsertSeq100000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRandN tests N random int inserts
-func BenchmarkInsertRand100000(b *testing.B) {
+// BenchmarkInsertRandomN tests N random int inserts
+func BenchmarkInsertRandom100000(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -407,8 +407,8 @@ func BenchmarkInsertRand100000(b *testing.B) {
 	}
 }
 
-// BenchmarkInsertRepeatedN tests N repeated inserts
-func BenchmarkInsertRepeat100000(b *testing.B) {
+// BenchmarkInsertRepeatededN tests N repeated inserts
+func BenchmarkInsertRepeated100000(b *testing.B) {
 	r := rand.Int()
 
 	for i := 0; i < 100000; i++ {
@@ -420,8 +420,8 @@ func BenchmarkInsertRepeat100000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadSeqN tests sequential reads from 0 to N
-func BenchmarkReadSeq100000(b *testing.B) {
+// BenchmarkReadSequentialN tests sequential reads from 0 to N
+func BenchmarkReadSequential100000(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -435,8 +435,8 @@ func BenchmarkReadSeq100000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRandN tests N random reads
-func BenchmarkReadRand100000(b *testing.B) {
+// BenchmarkReadRandomN tests N random reads
+func BenchmarkReadRandom100000(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
@@ -452,8 +452,8 @@ func BenchmarkReadRand100000(b *testing.B) {
 	}
 }
 
-// BenchmarkReadRepeatedN tests N repeated reads
-func BenchmarkReadRepeat100000(b *testing.B) {
+// BenchmarkReadRepeatededN tests N repeated reads
+func BenchmarkReadRepeated100000(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		r := rand.Int()
 		inputs = append(inputs, r)
