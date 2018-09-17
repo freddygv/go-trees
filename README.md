@@ -1,4 +1,4 @@
-# go-trees [![Go Report Card](https://goreportcard.com/badge/github.com/freddygv/go-trees)](https://goreportcard.com/report/github.com/freddygv/go-trees) [![Build Status](https://travis-ci.org/freddygv/go-trees.svg?branch=master)](https://travis-ci.org/freddygv/go-trees) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+# go-trees [![Go Report Card](https://goreportcard.com/badge/github.com/freddygv/go-trees)](https://goreportcard.com/report/github.com/freddygv/go-trees) [![Build Status](https://travis-ci.org/freddygv/go-trees.svg?branch=master)](https://travis-ci.org/freddygv/go-trees) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)]()
 
 Tree data structures in Go.
 
